@@ -1,0 +1,2564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sports Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --navy: #0a1628;
+      --navy-mid: #122040;
+      --navy-light: #1a3060;
+      --gold: #f0c040;
+      --white: #ffffff;
+      --off-white: #f4f6fa;
+      --gray: #8a96a8;
+      --light-border: rgba(255,255,255,0.1);
+      --card-bg: rgba(255,255,255,0.04);
+      --font-display: 'Barlow Condensed', sans-serif;
+      --font-body: 'Barlow', sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--font-body);
+      background: var(--navy);
+      color: var(--white);
+      min-height: 100vh;
+    }
+    /* ── NAVBAR ── */
+    .navbar {
+      background: var(--navy-mid);
+      border-bottom: 2px solid var(--gold);
+      padding: 0 2rem;
+      height: 68px;
+    }
+    .navbar-brand {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--white) !important;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+    .navbar-brand span { color: var(--gold); }
+    .nav-link {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      color: rgba(255,255,255,0.75) !important;
+      text-transform: uppercase;
+      padding: 0.5rem 1rem !important;
+      transition: color 0.2s;
+    }
+    .nav-link:hover, .nav-link.active { color: var(--gold) !important; }
+    .navbar-toggler { border-color: var(--gold); }
+    .navbar-toggler-icon { filter: invert(1); }
+
+    /* ── SPORT ICONS ROW ── */
+    .sport-icons-bar {
+      background: var(--navy-light);
+      padding: 0.75rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2.5rem;
+      border-bottom: 1px solid var(--light-border);
+    }
+    .sport-icon-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+      transition: transform 0.2s;
+      text-decoration: none;
+      color: var(--white);
+    }
+    .sport-icon-item:hover { transform: translateY(-3px); color: var(--gold); }
+    .sport-icon-svg { width: 38px; height: 38px; }
+    .sport-icon-label {
+      font-family: var(--font-display);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--gray);
+    }
+    .sport-icon-item:hover .sport-icon-label { color: var(--gold); }
+
+    /* ── PAGES ── */
+    .page { display: none; padding: 2rem; min-height: calc(100vh - 130px); }
+    .page.active { display: block; }
+
+    /* ── HOME HERO ── */
+    .hero {
+      background: linear-gradient(135deg, var(--navy-mid) 0%, var(--navy-light) 100%);
+      border-radius: 16px;
+      padding: 4rem 2rem;
+      text-align: center;
+      border: 1px solid var(--light-border);
+      margin-bottom: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 250px; height: 250px;
+      background: radial-gradient(circle, rgba(240,192,64,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero h1 {
+      font-family: var(--font-display);
+      font-size: 4rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+    .hero h1 span { color: var(--gold); }
+    .hero p { font-size: 1.2rem; color: var(--gray); margin-bottom: 2rem; }
+    .btn-gold {
+      background: var(--gold);
+      color: var(--navy);
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      border: none;
+      padding: 0.75rem 2rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn-gold:hover { background: #ffd060; transform: translateY(-2px); color: var(--navy); }
+    .btn-outline-gold {
+      background: transparent;
+      color: var(--gold);
+      border: 1.5px solid var(--gold);
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 0.75rem 2rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-outline-gold:hover { background: var(--gold); color: var(--navy); }
+
+    /* ── SECTION HEADER ── */
+    .section-header {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: var(--white);
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--gold);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .section-header i { color: var(--gold); }
+
+    /* ── CARDS ── */
+    .sh-card {
+      background: var(--card-bg);
+      border: 1px solid var(--light-border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .sh-card:hover { border-color: rgba(240,192,64,0.4); transform: translateY(-2px); }
+
+    /* ── SCORES PAGE ── */
+    .score-card {
+      background: var(--card-bg);
+      border: 1px solid var(--light-border);
+      border-radius: 10px;
+      padding: 1rem 1.5rem;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .score-team {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+    .score-team-name {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+    .score-team-score {
+      font-family: var(--font-display);
+      font-size: 2.5rem;
+      font-weight: 900;
+      line-height: 1;
+    }
+    .score-vs {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      color: var(--gray);
+      font-weight: 600;
+    }
+    .score-status {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 20px;
+    }
+    .status-live { background: rgba(255,60,60,0.2); color: #ff6060; border: 1px solid rgba(255,60,60,0.3); }
+    .status-final { background: rgba(255,255,255,0.08); color: var(--gray); border: 1px solid var(--light-border); }
+    .status-scheduled { background: rgba(240,192,64,0.15); color: var(--gold); border: 1px solid rgba(240,192,64,0.3); }
+
+    /* ── NEWS PAGE ── */
+    .news-card {
+      background: var(--card-bg);
+      border: 1px solid var(--light-border);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: transform 0.2s, border-color 0.2s;
+      cursor: pointer;
+    }
+    .news-card:hover { transform: translateY(-3px); border-color: rgba(240,192,64,0.4); }
+    .news-card-img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      background: linear-gradient(135deg, var(--navy-light), var(--navy-mid));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+    }
+    .news-card-body { padding: 1.2rem; }
+    .news-badge {
+      font-family: var(--font-display);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.4rem;
+    }
+    .news-title {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      font-weight: 700;
+      line-height: 1.3;
+      margin-bottom: 0.5rem;
+    }
+    .news-excerpt { font-size: 0.85rem; color: var(--gray); line-height: 1.5; }
+    .news-meta { font-size: 0.75rem; color: var(--gray); margin-top: 0.75rem; }
+
+    /* ── PLAYOFF PREDICTOR ── */
+    .bracket-wrapper { overflow-x: auto; padding-bottom: 1rem; }
+    .bracket { display: flex; gap: 2rem; align-items: flex-start; min-width: 800px; }
+    .bracket-round { display: flex; flex-direction: column; gap: 1rem; }
+    .bracket-label {
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      text-align: center;
+      margin-bottom: 0.5rem;
+    }
+    .matchup {
+      background: var(--card-bg);
+      border: 1px solid var(--light-border);
+      border-radius: 8px;
+      overflow: hidden;
+      width: 180px;
+    }
+    .matchup-team {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      cursor: pointer;
+      transition: background 0.15s;
+      border-bottom: 1px solid var(--light-border);
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+    .matchup-team:last-child { border-bottom: none; }
+    .matchup-team:hover { background: rgba(240,192,64,0.1); }
+    .matchup-team.winner { background: rgba(240,192,64,0.15); color: var(--gold); }
+    .matchup-seed {
+      background: rgba(255,255,255,0.12);
+      border-radius: 4px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      width: 20px; height: 20px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .predict-btn {
+      background: rgba(240,192,64,0.12);
+      border: 1px solid rgba(240,192,64,0.3);
+      color: var(--gold);
+      font-family: var(--font-display);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-top: 0.5rem;
+    }
+    .predict-btn:hover { background: var(--gold); color: var(--navy); }
+
+    /* ── 3-POINT CONTEST GAME ── */
+    #game-canvas-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+    #game-canvas {
+      border: 2px solid var(--light-border);
+      border-radius: 12px;
+      cursor: pointer;
+      touch-action: none;
+      display: block;
+    }
+    .game-stats {
+      display: flex;
+      gap: 2rem;
+      text-align: center;
+    }
+    .stat-box {
+      background: var(--card-bg);
+      border: 1px solid var(--light-border);
+      border-radius: 10px;
+      padding: 1rem 1.5rem;
+    }
+    .stat-val {
+      font-family: var(--font-display);
+      font-size: 2.5rem;
+      font-weight: 900;
+      color: var(--gold);
+      line-height: 1;
+    }
+    .stat-lbl {
+      font-family: var(--font-display);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gray);
+      margin-top: 4px;
+    }
+
+    /* ── RESUME PAGE ── */
+    .resume-section { margin-bottom: 2.5rem; }
+    .resume-section h3 {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 900;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      border-bottom: 1px solid rgba(240,192,64,0.3);
+      padding-bottom: 0.4rem;
+      margin-bottom: 1rem;
+    }
+    .resume-item { margin-bottom: 1.2rem; }
+    .resume-item h4 {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--white);
+    }
+    .resume-item .meta { color: var(--gold); font-size: 0.85rem; font-weight: 500; margin-bottom: 0.3rem; }
+    .resume-item p, .resume-item li { color: var(--gray); font-size: 0.9rem; line-height: 1.6; }
+    .skill-tag {
+      display: inline-block;
+      background: rgba(240,192,64,0.12);
+      border: 1px solid rgba(240,192,64,0.3);
+      color: var(--gold);
+      font-family: var(--font-display);
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin: 3px;
+    }
+
+    /* ── SCORE TABS ── */
+    .sport-tabs {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .sport-tab {
+      background: var(--card-bg);
+      border: 1px solid var(--light-border);
+      color: var(--gray);
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 6px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .sport-tab:hover, .sport-tab.active {
+      background: rgba(240,192,64,0.15);
+      border-color: rgba(240,192,64,0.5);
+      color: var(--gold);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--navy-mid);
+      border-top: 1px solid var(--light-border);
+      padding: 1.5rem 2rem;
+      text-align: center;
+      color: var(--gray);
+      font-size: 0.85rem;
+    }
+    footer span { color: var(--gold); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .sport-icons-bar { gap: 1.2rem; overflow-x: auto; justify-content: flex-start; }
+      .hero h1 { font-size: 2.5rem; }
+      .page { padding: 1rem; }
+      .bracket { min-width: 600px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#" onclick="showPage('home')">⚡ Sports<span>Hub</span></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMain">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="#" onclick="showPage('home')"><i class="bi bi-house-fill me-1"></i>Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="#" onclick="goToSport('all')"><i class="bi bi-display me-1"></i>Scores</a></li>
+        <li class="nav-item"><a class="nav-link" href="#" onclick="showPage('news')"><i class="bi bi-newspaper me-1"></i>News</a></li>
+        <li class="nav-item"><a class="nav-link" href="#" onclick="showPage('entertainment')"><i class="bi bi-play-circle-fill me-1"></i>Entertainment</a></li>
+        <li class="nav-item"><a class="nav-link" href="#" onclick="showPage('predictor')"><i class="bi bi-trophy-fill me-1"></i>Predictor</a></li>
+        <li class="nav-item"><a class="nav-link" href="#" onclick="showPage('game')"><i class="bi bi-controller me-1"></i>3PT Game</a></li>
+        <li class="nav-item"><a class="nav-link" href="#" onclick="showPage('putt')"><i class="bi bi-flag-fill me-1"></i>Golf Game</a></li>
+        <li class="nav-item"><a class="nav-link" href="#" onclick="showPage('resume')"><i class="bi bi-person-badge-fill me-1"></i>Résumé</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- SPORT ICONS BAR -->
+<div class="sport-icons-bar">
+  <!-- Football -->
+  <a class="sport-icon-item" href="#" onclick="goToSport('nfl'); return false;">
+    <svg class="sport-icon-svg" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="19" cy="19" rx="12" ry="8" fill="none" stroke="#c8a040" stroke-width="2"/>
+      <line x1="7" y1="19" x2="31" y2="19" stroke="#c8a040" stroke-width="1.5"/>
+      <line x1="14" y1="13" x2="14" y2="25" stroke="#c8a040" stroke-width="1.2"/>
+      <line x1="19" y1="11" x2="19" y2="27" stroke="#c8a040" stroke-width="1.2"/>
+      <line x1="24" y1="13" x2="24" y2="25" stroke="#c8a040" stroke-width="1.2"/>
+    </svg>
+    <span class="sport-icon-label">Football</span>
+  </a>
+  <!-- Soccer -->
+  <a class="sport-icon-item" href="#" onclick="goToSport('soccer'); return false;">
+    <svg class="sport-icon-svg" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="19" cy="19" r="13" stroke="#c8a040" stroke-width="2"/>
+      <polygon points="19,10 23,16 30,16 25,21 27,28 19,23 11,28 13,21 8,16 15,16" fill="none" stroke="#c8a040" stroke-width="1.2"/>
+    </svg>
+    <span class="sport-icon-label">Soccer</span>
+  </a>
+  <!-- Basketball -->
+  <a class="sport-icon-item" href="#" onclick="goToSport('nba'); return false;">
+    <svg class="sport-icon-svg" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="19" cy="19" r="13" stroke="#c8a040" stroke-width="2"/>
+      <path d="M6 19 Q19 8 32 19" stroke="#c8a040" stroke-width="1.2" fill="none"/>
+      <path d="M6 19 Q19 30 32 19" stroke="#c8a040" stroke-width="1.2" fill="none"/>
+      <line x1="19" y1="6" x2="19" y2="32" stroke="#c8a040" stroke-width="1.2"/>
+    </svg>
+    <span class="sport-icon-label">Basketball</span>
+  </a>
+  <!-- Golf -->
+  <a class="sport-icon-item" href="#" onclick="goToSport('golf'); return false;">
+    <svg class="sport-icon-svg" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="19" cy="9" r="4" stroke="#c8a040" stroke-width="2"/>
+      <line x1="19" y1="13" x2="19" y2="32" stroke="#c8a040" stroke-width="2"/>
+      <path d="M19 16 L26 20 L19 24" stroke="#c8a040" stroke-width="1.5" fill="none"/>
+      <ellipse cx="19" cy="33" rx="7" ry="2" stroke="#c8a040" stroke-width="1"/>
+    </svg>
+    <span class="sport-icon-label">Golf</span>
+  </a>
+  <!-- Baseball -->
+  <a class="sport-icon-item" href="#" onclick="goToSport('mlb'); return false;">
+    <svg class="sport-icon-svg" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="19" cy="19" r="13" stroke="#c8a040" stroke-width="2"/>
+      <path d="M12 8 Q8 19 12 30" stroke="#c8a040" stroke-width="1.5" fill="none"/>
+      <path d="M26 8 Q30 19 26 30" stroke="#c8a040" stroke-width="1.5" fill="none"/>
+      <line x1="12" y1="12" x2="26" y2="12" stroke="#c8a040" stroke-width="1" stroke-dasharray="2 2"/>
+      <line x1="12" y1="26" x2="26" y2="26" stroke="#c8a040" stroke-width="1" stroke-dasharray="2 2"/>
+    </svg>
+    <span class="sport-icon-label">Baseball</span>
+  </a>
+</div>
+
+<!-- ============================================================ -->
+<!--  HOME PAGE -->
+<!-- ============================================================ -->
+<div id="page-home" class="page active">
+  <div class="hero">
+    <h1>Your Ultimate<br><span>Sports</span> Hub</h1>
+    <p>Scores · News · Predictions · Games — All in One Place</p>
+    <div class="d-flex gap-3 justify-content-center flex-wrap">
+      <button class="btn-gold" onclick="goToSport('all')">Live Scores</button>
+      <button class="btn-outline-gold" onclick="showPage('game')">Play 3PT Game</button>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-md-4">
+      <div class="sh-card h-100" style="cursor:pointer" onclick="goToSport('all')">
+        <div style="font-size:2.5rem; margin-bottom:0.75rem;">🏆</div>
+        <h3 style="font-family:var(--font-display); font-size:1.4rem; font-weight:700; text-transform:uppercase; letter-spacing:2px; margin-bottom:0.5rem;">Live Scores</h3>
+        <p style="color:var(--gray); font-size:0.9rem;">Real-time scores across NFL, NBA, MLB, Soccer, and Golf. Never miss a play.</p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="sh-card h-100" style="cursor:pointer" onclick="showPage('news')">
+        <div style="font-size:2.5rem; margin-bottom:0.75rem;">📰</div>
+        <h3 style="font-family:var(--font-display); font-size:1.4rem; font-weight:700; text-transform:uppercase; letter-spacing:2px; margin-bottom:0.5rem;">Breaking News</h3>
+        <p style="color:var(--gray); font-size:0.9rem;">The latest headlines, trades, injuries, and analysis from around the sports world.</p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="sh-card h-100" style="cursor:pointer" onclick="showPage('predictor')">
+        <div style="font-size:2.5rem; margin-bottom:0.75rem;">🔮</div>
+        <h3 style="font-family:var(--font-display); font-size:1.4rem; font-weight:700; text-transform:uppercase; letter-spacing:2px; margin-bottom:0.5rem;">Playoff Predictor</h3>
+        <p style="color:var(--gray); font-size:0.9rem;">Build your bracket. Predict the champions. See how your picks stack up.</p>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="sh-card h-100" style="cursor:pointer" onclick="showPage('game')">
+        <div style="font-size:2.5rem; margin-bottom:0.75rem;">🏀</div>
+        <h3 style="font-family:var(--font-display); font-size:1.4rem; font-weight:700; text-transform:uppercase; letter-spacing:2px; margin-bottom:0.5rem;">3-Point Contest</h3>
+        <p style="color:var(--gray); font-size:0.9rem;">Test your timing! Click the power bar at the perfect moment to drain 3-pointers from five spots around the arc.</p>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="sh-card h-100" style="cursor:pointer" onclick="showPage('resume')">
+        <div style="font-size:2.5rem; margin-bottom:0.75rem;">📋</div>
+        <h3 style="font-family:var(--font-display); font-size:1.4rem; font-weight:700; text-transform:uppercase; letter-spacing:2px; margin-bottom:0.5rem;">About / Résumé</h3>
+        <p style="color:var(--gray); font-size:0.9rem;">Learn more about the creator of Sports Hub — education, experience, and skills.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!--  SCORES PAGE -->
+<!-- ============================================================ -->
+<div id="page-scores" class="page">
+  <h2 class="section-header"><i class="bi bi-display"></i> Live Scores &amp; Record Predictor</h2>
+
+  <div class="sport-tabs" id="scoreTabs">
+    <button class="sport-tab active" onclick="filterSport('all')">All</button>
+    <button class="sport-tab" onclick="filterSport('nfl')">🏈 NFL</button>
+    <button class="sport-tab" onclick="filterSport('nba')">🏀 NBA</button>
+    <button class="sport-tab" onclick="filterSport('mlb')">⚾ MLB</button>
+    <button class="sport-tab" onclick="filterSport('soccer')">⚽ Soccer</button>
+    <button class="sport-tab" onclick="filterSport('golf')">⛳ Golf</button>
+  </div>
+
+  <div id="scores-container"></div>
+  <div id="sport-legend"></div>
+
+  <!-- RECORD PREDICTOR -->
+  <div id="predictor-section" style="margin-top:2.5rem;">
+    <h3 class="section-header" style="font-size:1.4rem;"><i class="bi bi-graph-up-arrow"></i> Season Record Predictor</h3>
+    <p style="color:var(--gray); font-size:0.9rem; margin-bottom:1.5rem;">Select a team and adjust their average points scored to see how their projected win/loss record shifts.</p>
+    <div id="predictor-cards" class="row g-4"></div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!--  NEWS PAGE -->
+<!-- ============================================================ -->
+<div id="page-news" class="page">
+  <h2 class="section-header"><i class="bi bi-newspaper"></i> Latest News</h2>
+  <div class="row g-4" id="news-container"></div>
+
+  <!-- Article modal -->
+  <div id="article-modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:9999; overflow-y:auto;">
+    <div style="max-width:680px; margin:3rem auto; background:var(--navy-mid); border:1px solid var(--light-border); border-radius:16px; padding:2.5rem; position:relative;">
+      <button onclick="document.getElementById('article-modal').style.display='none'" style="position:absolute;top:1rem;right:1rem;background:none;border:none;color:var(--gray);font-size:1.5rem;cursor:pointer;">✕</button>
+      <div id="article-content"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!--  PLAYOFF PREDICTOR PAGE -->
+<!-- ============================================================ -->
+<div id="page-predictor" class="page">
+  <h2 class="section-header"><i class="bi bi-trophy-fill"></i> Playoff Predictor</h2>
+
+  <div class="d-flex gap-3 mb-3 flex-wrap align-items-center">
+    <div>
+      <label style="font-family:var(--font-display); font-size:0.85rem; color:var(--gray); letter-spacing:1px; text-transform:uppercase;">League</label>
+      <select id="bracketLeague" onchange="renderBracket()" style="background:var(--navy-light);border:1px solid var(--light-border);color:var(--white);font-family:var(--font-display);font-size:0.95rem;padding:6px 12px;border-radius:6px;margin-left:8px;">
+        <option value="nba">NBA Playoffs</option>
+        <option value="nfl">NFL Playoffs</option>
+        <option value="mlb">MLB Playoffs</option>
+      </select>
+    </div>
+    <button class="predict-btn" onclick="resetBracket()">Reset Bracket</button>
+  </div>
+
+  <div id="bracket-container" class="bracket-wrapper"></div>
+  <div id="champion-display" style="display:none; text-align:center; margin-top:2rem; padding:2rem; background:rgba(240,192,64,0.1); border:2px solid var(--gold); border-radius:12px;">
+    <div style="font-size:3rem;">🏆</div>
+    <div style="font-family:var(--font-display); font-size:1rem; letter-spacing:3px; text-transform:uppercase; color:var(--gold);">Your Predicted Champion</div>
+    <div id="champion-name" style="font-family:var(--font-display); font-size:2.5rem; font-weight:900; color:var(--white);"></div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!--  3-POINT CONTEST GAME -->
+<!-- ============================================================ -->
+<div id="page-game" class="page">
+  <h2 class="section-header"><i class="bi bi-controller"></i> 3-Point Contest</h2>
+  <p style="color:var(--gray); margin-bottom:1.5rem;">
+    Two clicks per shot — <span style="color:var(--gold)">1st click</span> locks <strong style="color:var(--white)">aim</strong> (left ↔ right), 
+    <span style="color:var(--gold)">2nd click</span> locks <strong style="color:var(--white)">distance</strong> (short ↕ long). 
+    The <span style="color:#3cdc60;">green zone shrinks</span> the farther you shoot from. Every <span style="color:#3cdc60;">3rd shot is a 🟢 Money Ball</span> — worth <strong style="color:var(--white)">+4 pts</strong> instead of +3!
+  </p>
+
+  <div id="game-canvas-wrapper">
+    <div class="game-stats">
+      <div class="stat-box">
+        <div class="stat-val" id="g-score">0</div>
+        <div class="stat-lbl">Points</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-val" id="g-makes">0</div>
+        <div class="stat-lbl">Makes</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-val" id="g-shot">1</div>
+        <div class="stat-lbl">Shot</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-val" id="g-pos">1</div>
+        <div class="stat-lbl">Position</div>
+      </div>
+    </div>
+    <canvas id="game-canvas" width="600" height="460"></canvas>
+    <div id="game-msg" style="font-family:var(--font-display); font-size:1.4rem; font-weight:700; color:var(--gold); letter-spacing:2px; min-height:2rem; text-align:center;"></div>
+    <button id="game-start-btn" class="btn-gold" onclick="startGame()">Start Game</button>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!--  ENTERTAINMENT PAGE -->
+<!-- ============================================================ -->
+<div id="page-entertainment" class="page">
+  <h2 class="section-header"><i class="bi bi-play-circle-fill"></i> Entertainment</h2>
+
+  <!-- Filter tabs -->
+  <div class="sport-tabs" id="entTabs" style="margin-bottom:1.5rem;">
+    <button class="sport-tab active" onclick="filterEnt('all')">All</button>
+    <button class="sport-tab" onclick="filterEnt('nba')">🏀 NBA</button>
+    <button class="sport-tab" onclick="filterEnt('nfl')">🏈 NFL</button>
+    <button class="sport-tab" onclick="filterEnt('mlb')">⚾ MLB</button>
+    <button class="sport-tab" onclick="filterEnt('soccer')">⚽ Soccer</button>
+    <button class="sport-tab" onclick="filterEnt('golf')">⛳ Golf</button>
+  </div>
+
+  <div id="ent-grid" class="row g-4"></div>
+</div>
+
+<!-- ============================================================ -->
+<!--  GOLF GAME PAGE -->
+<!-- ============================================================ -->
+<div id="page-putt" class="page">
+  <h2 class="section-header"><i class="bi bi-flag-fill"></i> 3-Hole Golf — Par 3 · Par 4 · Par 4</h2>
+  <p style="color:var(--gray); margin-bottom:1rem;">
+    Top-down course view. <span style="color:var(--gold)">Click once</span> to aim, <span style="color:var(--gold)">click again</span> to set power.
+    Avoid <span style="color:#4a8af4;">water ⚓</span>, <span style="color:#d4a04a;">sand ⛱</span> and <span style="color:#5a7a3a;">rough 🌿</span>.
+    Max <strong style="color:var(--white)">3 strokes over par</strong> before the hole ends.
+  </p>
+
+  <!-- Scorecard -->
+  <div id="golf-scorecard" style="display:flex; gap:0.75rem; margin-bottom:1rem; flex-wrap:wrap; justify-content:center;">
+    <div class="stat-box" style="min-width:75px;"><div class="stat-val" id="gs-strokes">0</div><div class="stat-lbl">Strokes</div></div>
+    <div class="stat-box" style="min-width:75px;"><div class="stat-val" id="gs-score" style="color:#3cdc60;">E</div><div class="stat-lbl">Score</div></div>
+    <div class="stat-box" style="min-width:75px;"><div class="stat-val" id="gs-hole">1</div><div class="stat-lbl">Hole</div></div>
+    <div class="stat-box" style="min-width:75px;"><div class="stat-val" id="gs-par">3</div><div class="stat-lbl">Par</div></div>
+    <div class="stat-box" style="min-width:75px;"><div class="stat-val" id="gs-h1">—</div><div class="stat-lbl">H1</div></div>
+    <div class="stat-box" style="min-width:75px;"><div class="stat-val" id="gs-h2">—</div><div class="stat-lbl">H2</div></div>
+    <div class="stat-box" style="min-width:75px;"><div class="stat-val" id="gs-h3">—</div><div class="stat-lbl">H3</div></div>
+  </div>
+
+  <div style="display:flex; flex-direction:column; align-items:center; gap:0.75rem;">
+    <canvas id="golf-canvas" width="600" height="480" style="border:2px solid var(--light-border); border-radius:12px; cursor:crosshair; display:block;"></canvas>
+
+    <!-- Power bar (shown during power phase) -->
+    <div id="golf-power-wrap" style="width:600px; max-width:100%; display:none;">
+      <div style="font-family:var(--font-display); font-size:0.78rem; color:var(--gray); letter-spacing:1px; text-transform:uppercase; margin-bottom:4px; text-align:left;">⚡ Power — click to swing!</div>
+      <div style="position:relative; height:22px; background:rgba(0,0,0,0.5); border-radius:8px; overflow:hidden;">
+        <div id="golf-power-green" style="position:absolute; left:35%; width:30%; height:100%; background:rgba(60,200,80,0.75); border-radius:4px;"></div>
+        <div id="golf-power-bar" style="position:absolute; top:0; left:50%; width:6px; height:100%; background:#fff; border-radius:3px; transition:none;"></div>
+      </div>
+    </div>
+
+    <div id="golf-msg" style="font-family:var(--font-display); font-size:1.3rem; font-weight:700; color:var(--gold); letter-spacing:2px; min-height:1.8rem; text-align:center;"></div>
+    <button id="golf-start-btn" class="btn-gold" onclick="startGolf()">Tee Off →</button>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!--  RÉSUMÉ PAGE -->
+<!-- ============================================================ -->
+<div id="page-resume" class="page">
+  <h2 class="section-header"><i class="bi bi-person-badge-fill"></i> Résumé</h2>
+  <div class="row">
+    <!-- Sidebar -->
+    <div class="col-lg-3 mb-4">
+      <div class="sh-card text-center">
+        <div style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--navy-light),var(--gold));margin:0 auto 1rem;display:flex;align-items:center;justify-content:center;font-size:2rem;">👤</div>
+        <h3 style="font-family:var(--font-display);font-size:1.3rem;font-weight:700;letter-spacing:1px;">Jayden Kuehne</h3>
+        <p style="color:var(--gold);font-size:0.85rem;">Pre-Business · Finance &amp; Accounting</p>
+        <hr style="border-color:var(--light-border)">
+        <div style="font-size:0.85rem;color:var(--gray);line-height:2.2;">
+          <div><i class="bi bi-geo-alt-fill me-1" style="color:var(--gold)"></i> Provo, UT</div>
+          <div><i class="bi bi-building me-1" style="color:var(--gold)"></i> Brigham Young University</div>
+          <div><i class="bi bi-graph-up me-1" style="color:var(--gold)"></i> GPA: 3.82 / 4.00</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main content -->
+    <div class="col-lg-9">
+
+      <!-- Education -->
+      <div class="resume-section">
+        <h3><i class="bi bi-mortarboard-fill me-2"></i>Education</h3>
+        <div class="resume-item">
+          <h4>Brigham Young University</h4>
+          <div class="meta">Pre-Business · Provo, UT · Expected Apr 2029</div>
+          <ul style="list-style:disc;padding-left:1.5rem;">
+            <li>Overall GPA: 3.82 / 4.00</li>
+            <li>Relevant Coursework: Intro to Statistical Data Analysis, Economic Principles and Problems</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Experience -->
+      <div class="resume-section">
+        <h3><i class="bi bi-briefcase-fill me-2"></i>Experience</h3>
+
+        <div class="resume-item">
+          <h4>Accounting Intern</h4>
+          <div class="meta">Swig · Sandy, UT · Nov 2025 – Present</div>
+          <ul style="list-style:disc;padding-left:1.5rem;">
+            <li>Work with the VP of Accounting, Controller, and Accounting Manager at the Corporate Office to complete various accounting tasks.</li>
+            <li>Account for depreciation on fixed assets, analyze P&amp;L trends, review leases, file 1099s, adjust journal entries, and participate in month-end close activities.</li>
+          </ul>
+          <div style="margin-top:0.6rem; margin-bottom:0.3rem; font-size:0.85rem; color:var(--gold); font-weight:600; text-decoration:underline;">Selected Project Experience</div>
+          <div style="font-size:0.9rem; font-style:italic; color:var(--white); margin-bottom:0.3rem;">Consolidate Franchise Financials</div>
+          <ul style="list-style:disc;padding-left:1.5rem;">
+            <li>Communicate with franchisees to consolidate franchise financials. Use X-lookups in Excel to organize financials by location, franchisee, and overall consolidated balance sheets and P&amp;Ls by month.</li>
+          </ul>
+        </div>
+
+        <div class="resume-item">
+          <h4>Yard Worker</h4>
+          <div class="meta">Mollerup Glass · North Salt Lake, UT · Apr 2023 – Aug 2023</div>
+          <ul style="list-style:disc;padding-left:1.5rem;">
+            <li>Installed and maintained sprinkler systems, cared for plants and livestock, and ensured facility upkeep.</li>
+            <li>Demonstrated accountability through weekly quality checks and proactive problem-solving.</li>
+            <li>Collaborated with team members and supervisors to resolve issues efficiently while maintaining independence and initiative.</li>
+          </ul>
+        </div>
+
+        <div class="resume-item">
+          <h4>Groundskeeper</h4>
+          <div class="meta">Bountiful Ridge Golf Course · Bountiful, UT · Apr 2021 – Mar 2023</div>
+          <ul style="list-style:disc;padding-left:1.5rem;">
+            <li>Maintained the golf course by cleaning, mowing, raking, weed whacking, and performing other miscellaneous tasks.</li>
+            <li>Developed organizational skills to streamline daily operations and maintain company equipment.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Leadership & Service -->
+      <div class="resume-section">
+        <h3><i class="bi bi-people-fill me-2"></i>Leadership &amp; Service</h3>
+        <div class="resume-item">
+          <h4>Full-time Representative</h4>
+          <div class="meta">The Church of Jesus Christ of Latter-day Saints · Indiana Indianapolis · Aug 2023 – Aug 2025</div>
+          <ul style="list-style:disc;padding-left:1.5rem;">
+            <li>Led teams of 10–12 volunteers, conducted weekly training sessions, and tracked progress through detailed reports.</li>
+            <li>Organized and facilitated workshops on goal setting, relationship building, and leadership development.</li>
+            <li>Enhanced volunteer effectiveness by providing individualized coaching in communication, problem-solving, and productivity.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Skills & Interests -->
+      <div class="resume-section">
+        <h3><i class="bi bi-tools me-2"></i>Skills &amp; Interests</h3>
+        <div style="margin-bottom:1rem;">
+          <span class="skill-tag">Microsoft Word</span>
+          <span class="skill-tag">Microsoft PowerPoint</span>
+          <span class="skill-tag">Microsoft Excel</span>
+          <span class="skill-tag">NetSuite (ERP)</span>
+          <span class="skill-tag">X-lookups</span>
+          <span class="skill-tag">P&amp;L Analysis</span>
+          <span class="skill-tag">Journal Entries</span>
+          <span class="skill-tag">Month-End Close</span>
+          <span class="skill-tag">Finance</span>
+          <span class="skill-tag">Accounting</span>
+          <span class="skill-tag">Strategy</span>
+          <span class="skill-tag">Operations</span>
+        </div>
+        <div class="resume-item">
+          <ul style="list-style:disc;padding-left:1.5rem;">
+            <li><strong style="color:var(--white);">Communication:</strong> Deliver workshops, collaborate with diverse teams, and resolve workplace challenges.</li>
+            <li><strong style="color:var(--white);">Organization &amp; Problem Solving:</strong> Manage complex tasks, maintain high standards, and adapt to new challenges.</li>
+            <li><strong style="color:var(--white);">Well-rounded:</strong> Proven ability to balance rigorous academics with work, service commitments, and a social life.</li>
+            <li><strong style="color:var(--white);">Quick Learner:</strong> Faced various challenges and new classes with a strong work ethic and a positive attitude.</li>
+            <li><strong style="color:var(--white);">Business Interests:</strong> Finance, accounting, strategy, and operations.</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <span>Sports Hub</span> · Built with Bootstrap 5 · &copy; 2025 Jayden Kuehne · <a href="scratch.html" style="color:var(--gold)">Scratch Page</a>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+// -- PAGE NAVIGATION ----------------------------------------------
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const pg = document.getElementById('page-' + id);
+  if (!pg) return;
+  pg.classList.add('active');
+  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+  if (id === 'home') window.scrollTo(0, 0);
+  if (id === 'game'  && !gameInitialized) initGameCanvas();
+  if (id === 'putt'  && !puttInitialized) initPuttGame();
+  if (id === 'entertainment') ensureEntBuilt();
+  if (id === 'predictor' && !bracketRendered) { renderBracket(); bracketRendered = true; }
+}
+
+// Navigate to scores page filtered to a specific sport
+function goToSport(sport) {
+  showPage('scores');
+  filterSport(sport);
+}
+
+function filterSport(sport) {
+  // Update tab highlight
+  const tabs = document.querySelectorAll('#scoreTabs .sport-tab');
+  tabs.forEach(t => t.classList.remove('active'));
+  const map = { all:0, nfl:1, nba:2, mlb:3, soccer:4, golf:5 };
+  if (tabs[map[sport]]) tabs[map[sport]].classList.add('active');
+
+  // Update all three content areas
+  renderScores(sport);
+  renderSportLegend(sport);
+  renderPredictorForSport(sport);
+}
+
+// -- SCORES DATA --------------------------------------------------
+const scoresData = [
+  { sport:'nba', home:'Lakers', away:'Celtics', hs:108, as:112, status:'Final', period:'Final' },
+  { sport:'nba', home:'Warriors', away:'Nuggets', hs:94, as:87, status:'live', period:'Q3 8:24' },
+  { sport:'nba', home:'Bucks', away:'Heat', hs:0, as:0, status:'scheduled', period:'7:30 PM ET' },
+  { sport:'nfl', home:'Chiefs', away:'Eagles', hs:24, as:17, status:'Final', period:'Final' },
+  { sport:'nfl', home:'Cowboys', away:'49ers', hs:0, as:0, status:'scheduled', period:'Sun 4:25 PM ET' },
+  { sport:'mlb', home:'Yankees', away:'Red Sox', hs:7, as:4, status:'Final', period:'Final' },
+  { sport:'mlb', home:'Dodgers', away:'Braves', hs:3, as:5, status:'live', period:'Bot 7th' },
+  { sport:'mlb', home:'Cubs', away:'Cardinals', hs:0, as:0, status:'scheduled', period:'8:05 PM ET' },
+  { sport:'soccer', home:'Man City', away:'Arsenal', hs:2, as:2, status:'live', period:'72\'' },
+  { sport:'soccer', home:'Liverpool', away:'Chelsea', hs:1, as:0, status:'Final', period:'Final' },
+  { sport:'golf', home:'Masters', away:'Leaderboard', hs:null, as:null, status:'live', period:'Round 3', leader:'Scottie Scheffler -14' },
+];
+
+function renderScores(filter) {
+  const data = filter === 'all' ? scoresData : scoresData.filter(g => g.sport === filter);
+  const cont = document.getElementById('scores-container');
+  if (!data.length) { cont.innerHTML = '<p style="color:var(--gray);">No games for this sport right now.</p>'; return; }
+  cont.innerHTML = data.map(g => {
+    const statusClass = g.status === 'live' ? 'status-live' : g.status === 'scheduled' ? 'status-scheduled' : 'status-final';
+    const statusText = g.status === 'live' ? `🔴 LIVE ${g.period}` : g.status === 'scheduled' ? g.period : 'Final';
+    if (g.sport === 'golf') return `
+      <div class="score-card">
+        <div class="score-team"><div class="score-team-name">⛳ ${g.home}</div></div>
+        <div style="text-align:center;">
+          <div class="score-status ${statusClass}">${statusText}</div>
+          <div style="color:var(--gold);font-family:var(--font-display);font-size:1.1rem;font-weight:700;margin-top:8px;">${g.leader}</div>
+        </div>
+        <div class="score-team"><div class="score-team-name">${g.period}</div></div>
+      </div>`;
+    return `
+      <div class="score-card">
+        <div class="score-team">
+          <div class="score-team-name">${g.away}</div>
+          <div class="score-team-score" style="color:${g.as > g.hs ? 'var(--gold)' : 'var(--white)'}">${g.status === 'scheduled' ? '-' : g.as}</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="color:var(--gray);font-family:var(--font-display);font-size:0.85rem;margin-bottom:6px;">${g.sport.toUpperCase()}</div>
+          <div class="score-status ${statusClass}">${statusText}</div>
+        </div>
+        <div class="score-team">
+          <div class="score-team-name">${g.home}</div>
+          <div class="score-team-score" style="color:${g.hs > g.as ? 'var(--gold)' : 'var(--white)'}">${g.status === 'scheduled' ? '-' : g.hs}</div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+const sportLegends = {
+  nba:    { name:'Michael Jordan', era:'1984 \u2013 2003',    tag:'The GOAT',             quote:'"Talent wins games, but teamwork and intelligence win championships."', stats:['6\u00d7 NBA Champion','6\u00d7 Finals MVP','5\u00d7 League MVP','30.1 PPG Career'],  accent:'#e03a3a', sport:'\ud83c\udfc0 NBA',    img:'jordan.jpg', wiki:'Michael_Jordan' },
+  nfl:    { name:'Tom Brady',      era:'2000 \u2013 2023',    tag:'Mr. 7 Rings',          quote:'"Do you know what my favorite part of the game is? The opportunity to play."',                                                                                         stats:['7\u00d7 Super Bowl Champion','5\u00d7 Super Bowl MVP','3\u00d7 League MVP','89,214 Career Pass Yds'], accent:'#004c97', sport:'\ud83c\udfc8 NFL', img:'brady.jpg', wiki:'Tom_Brady' },
+  mlb:    { name:'Barry Bonds',    era:'1986 \u2013 2007',    tag:'Home Run King',        quote:'"If you can believe it, the mind can achieve it."',                       stats:['762 Career Home Runs','7\u00d7 NL MVP','8\u00d7 Gold Glove','.298 Career Avg'],  accent:'#003087', sport:'\u26be MLB',         img:'bonds.jpg', wiki:'Barry_Bonds' },
+  soccer: { name:'Lionel Messi',   era:'2004 \u2013 Present', tag:"8\u00d7 Ballon d'Or",  quote:'"I start early and I stay late, day after day, year after year."',        stats:["8\u00d7 Ballon d'Or",'2022 World Cup Champion','700+ Club Goals','All-time La Liga Top Scorer'], accent:'#74acdf', sport:'\u26bd Soccer',  img:'messi.jpg', wiki:'Lionel_Messi' },
+  golf:   { name:'Tiger Woods',    era:'1996 \u2013 Present', tag:'15\u00d7 Major Champion', quote:"\"No matter how good you get, you can always get better \u2014 and that's the exciting part.\"", stats:['15\u00d7 Major Champion','82 PGA Tour Wins','683 Weeks World No. 1','4\u00d7 Masters Titles'], accent:'#cc0000', sport:'\u26f3 Golf', img:'tiger.jpg', wiki:'Tiger_Woods' }
+};
+
+const _iCache={};
+
+function renderSportLegend(sport) {
+  const el = document.getElementById('sport-legend');
+  if (!el) return;
+  const l = sportLegends[sport];
+  if (!l) { el.innerHTML = ''; return; }
+  el.innerHTML = `
+    <div style="margin:1.5rem 0;border-radius:14px;border:1px solid ${l.accent}66;
+      background:linear-gradient(135deg,${l.accent}20 0%,var(--navy-mid) 55%);
+      display:flex;align-items:stretch;overflow:hidden;min-height:190px;">
+      <div style="width:4px;background:${l.accent};flex-shrink:0;"></div>
+      <div style="width:160px;flex-shrink:0;overflow:hidden;background:#0d1e3a;">
+        <img src="${l.img}" alt="${l.name}" id="legend-img-${sport}"
+          style="width:100%;height:100%;object-fit:cover;object-position:top center;display:block;"
+          onerror="fetchLegendImg('${sport}',this)">
+      </div>
+      <div style="flex:1;padding:1.2rem 1.4rem;display:flex;flex-direction:column;justify-content:center;gap:0.45rem;">
+        <div style="display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap;">
+          <span style="font-family:var(--font-display);font-size:0.7rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:${l.accent};background:${l.accent}25;padding:2px 10px;border-radius:20px;border:1px solid ${l.accent}55;">${l.sport}</span>
+          <span style="font-family:var(--font-display);font-size:0.7rem;color:var(--gray);letter-spacing:1px;">${l.era}</span>
+        </div>
+        <div>
+          <div style="font-family:var(--font-display);font-size:1.9rem;font-weight:900;line-height:1;color:var(--white);">${l.name}</div>
+          <div style="font-family:var(--font-display);font-size:0.78rem;font-weight:700;color:${l.accent};letter-spacing:2px;text-transform:uppercase;margin-top:2px;">${l.tag}</div>
+        </div>
+        <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+          ${l.stats.map(s=>`<span style="font-family:var(--font-display);font-size:0.7rem;font-weight:700;color:var(--white);background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);padding:3px 8px;border-radius:4px;white-space:nowrap;">${s}</span>`).join('')}
+        </div>
+        <div style="font-size:0.8rem;color:var(--gray);font-style:italic;line-height:1.5;max-width:500px;">${l.quote}</div>
+      </div>
+    </div>`;
+}
+
+async function fetchLegendImg(sport, imgEl) {
+  const l = sportLegends[sport];
+  if (!l) return;
+  if (_iCache[sport]) { imgEl.src = _iCache[sport]; imgEl.style.display = 'block'; return; }
+  try {
+    const res = await fetch(`https://en.wikipedia.org/w/api.php?action=query&titles=${l.wiki}&prop=pageimages&piprop=thumbnail&pithumbsize=400&format=json&origin=*`);
+    const data = await res.json();
+    const pages = data.query.pages;
+    const url = pages[Object.keys(pages)[0]]?.thumbnail?.source;
+    if (url) { _iCache[sport] = url; imgEl.src = url; imgEl.style.display = 'block'; }
+    else imgEl.style.display = 'none';
+  } catch(e) { imgEl.style.display = 'none'; }
+}
+
+
+
+function renderPredictorForSport(sport) {
+  const section = document.getElementById('predictor-section');
+  const cont = document.getElementById('predictor-cards');
+  if (!section || !cont) return;
+
+  // Destroy existing charts so canvas re-renders cleanly
+  Object.keys(predictorCharts).forEach(k => {
+    if (predictorCharts[k]) { predictorCharts[k].destroy(); delete predictorCharts[k]; }
+  });
+
+  const sports = sport === 'all' ? Object.keys(predictorData) : (predictorData[sport] ? [sport] : []);
+  if (!sports.length) { section.style.display = 'none'; return; }
+  section.style.display = 'block';
+
+  cont.innerHTML = sports.map(s => `
+    <div class="col-lg-${sport === 'all' ? '6' : '12'}">
+      <div class="sh-card" style="padding:1.25rem;">
+        <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:0.5rem; margin-bottom:1rem;">
+          <span style="font-family:var(--font-display); font-size:1.2rem; font-weight:700; letter-spacing:1px;">${predictorData[s].label}</span>
+          <select id="team-select-${s}" onchange="onTeamChange('${s}', this.value)"
+            style="background:var(--navy-light);border:1px solid var(--light-border);color:var(--white);font-family:var(--font-display);font-size:0.9rem;padding:4px 10px;border-radius:6px;">
+            ${predictorData[s].teams.map((t,i) => `<option value="${i}">${t.name}</option>`).join('')}
+          </select>
+        </div>
+        <div style="display:flex; align-items:center; gap:1rem; margin-bottom:0.75rem; flex-wrap:wrap;">
+          <label style="font-family:var(--font-display); font-size:0.8rem; color:var(--gray); letter-spacing:1px; text-transform:uppercase; white-space:nowrap;">${predictorData[s].ptLabel}</label>
+          <input type="range" id="pts-slider-${s}"
+            min="${getSliderMin(s)}" max="${getSliderMax(s)}" step="${getSliderStep(s)}"
+            value="${predictorState[s].adjPts}"
+            oninput="onSliderChange('${s}', this.value)"
+            style="flex:1; min-width:120px;">
+          <span id="pts-val-${s}" style="font-family:var(--font-display); font-size:1rem; font-weight:700; color:var(--gold); min-width:3.5rem; text-align:right;">${predictorState[s].adjPts}</span>
+        </div>
+        <div id="record-label-${s}" style="font-family:var(--font-display); font-size:0.95rem; color:var(--gray); margin-bottom:0.5rem;"></div>
+        <div style="position:relative; height:${sport === 'all' ? '200' : '320'}px;">
+          <canvas id="chart-${s}"></canvas>
+        </div>
+      </div>
+    </div>`).join('');
+
+  requestAnimationFrame(() => sports.forEach(s => buildChart(s)));
+}
+
+// -- NEWS DATA ----------------------------------------------------
+const newsData = [
+  { badge:'NBA', emoji:'🏀', title:'Warriors Clinch Playoff Spot With Dramatic OT Win', excerpt:'Golden State completes a furious second-half comeback to secure their postseason berth.', date:'2 hours ago', body:'<p>In one of the most dramatic games of the season, the Golden State Warriors overcame a 15-point deficit in the fourth quarter to defeat the Sacramento Kings 118-115 in overtime, clinching their playoff berth in the process.</p><p style="margin-top:1rem;">Stephen Curry led the charge with 38 points, 7 assists, and the go-ahead three-pointer with 1.2 seconds remaining in regulation to force overtime. The Warriors bench erupted as the shot swished through, capping one of the finest individual performances of the season.</p>' },
+  { badge:'NFL', emoji:'🏈', title:'Chiefs Sign Star Receiver to Record Extension', excerpt:'Kansas City locks up their top offensive weapon through 2028 in a landmark deal.', date:'5 hours ago', body:'<p>The Kansas City Chiefs have agreed to terms on a massive contract extension with their star wide receiver, sources confirmed. The deal, which keeps the player in Kansas City through the 2028 season, is one of the richest contracts ever given to a receiver in NFL history.</p><p style="margin-top:1rem;">Head coach Andy Reid praised the signing, calling it "a key piece of our dynasty." The Chiefs are expected to be heavy Super Bowl favorites again next season.</p>' },
+  { badge:'MLB', emoji:'⚾', title:'Dodgers\' Pitching Rotation Faces Injury Questions', excerpt:'Three key starters are listed as questionable ahead of the new season opener.', date:'Yesterday', body:'<p>The Los Angeles Dodgers are heading into the season with a cloud of uncertainty over their pitching rotation after three starters were listed as questionable during spring training. The team\'s depth will be tested early.</p>' },
+  { badge:'Soccer', emoji:'⚽', title:'Champions League Quarterfinal Draw Revealed', excerpt:'Marquee matchups set as Europe\'s elite clubs find out their next opponents.', date:'Yesterday', body:'<p>The UEFA Champions League quarterfinal draw produced blockbuster ties, with defending champions Real Madrid facing Manchester City in a rematch of a classic semifinal clash. Fans around the world are already calling it the match of the round.</p>' },
+  { badge:'Golf', emoji:'⛳', title:'Scheffler Leads Masters After Stunning Round 2', excerpt:'World No. 1 fires a record-tying 63 to move seven shots clear of the field.', date:'3 hours ago', body:'<p>Scottie Scheffler delivered one of the most memorable rounds in Masters history on Friday, firing a 63 to take a commanding lead heading into the weekend at Augusta National. The world No. 1 was flawless, hitting 17 greens in regulation and making seven birdies and an eagle.</p>' },
+  { badge:'NBA', emoji:'🏀', title:'Rookie Sensation Eyes Scoring Title in Final Stretch', excerpt:'The phenom is averaging 32 PPG over his last 15 games, making a historic run possible.', date:'4 hours ago', body:'<p>The NBA\'s most electrifying rookie is putting together a scoring stretch that has the entire league buzzing. Averaging 32 points per game over his last 15 outings, the young star is making a legitimate push for the scoring title -- something no rookie has accomplished since Wilt Chamberlain.</p>' },
+];
+
+function renderNews() {
+  const cont = document.getElementById('news-container');
+  cont.innerHTML = newsData.map((n,i) => `
+    <div class="col-md-4">
+      <div class="news-card" onclick="openArticle(${i})">
+        <div class="news-card-img">${n.emoji}</div>
+        <div class="news-card-body">
+          <div class="news-badge">${n.badge}</div>
+          <div class="news-title">${n.title}</div>
+          <div class="news-excerpt">${n.excerpt}</div>
+          <div class="news-meta">🕐 ${n.date}</div>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function openArticle(i) {
+  const n = newsData[i];
+  document.getElementById('article-content').innerHTML = `
+    <div class="news-badge" style="font-size:0.8rem;">${n.badge}</div>
+    <h2 style="font-family:var(--font-display);font-size:1.8rem;font-weight:900;margin:0.5rem 0 0.75rem;line-height:1.2;">${n.title}</h2>
+    <div style="color:var(--gray);font-size:0.85rem;margin-bottom:1.5rem;">🕐 ${n.date}</div>
+    <div style="color:rgba(255,255,255,0.85);line-height:1.8;">${n.body}</div>`;
+  document.getElementById('article-modal').style.display = 'block';
+}
+
+// -- PLAYOFF BRACKET ----------------------------------------------
+let bracketRendered = false;
+const bracketData = {
+  nba: {
+    rounds: ['First Round','Conf. Semis','Conf. Finals','Finals'],
+    east: [['Celtics','Heat'],['Bucks','76ers'],['Cavaliers','Knicks'],['Pacers','Nets']],
+    west: [['Nuggets','Lakers'],['Grizzlies','Warriors'],['Suns','Clippers'],['Kings','Pelicans']]
+  },
+  nfl: {
+    rounds: ['Wild Card','Divisional','Conf. Champ','Super Bowl'],
+    east: [['Chiefs','Dolphins'],['Bills','Steelers'],['Ravens','Browns'],['Eagles','Giants']],
+    west: [['49ers','Cowboys'],['Lions','Rams'],['Seahawks','Packers'],['Jaguars','Bengals']]
+  },
+  mlb: {
+    rounds: ['Wild Card','Division','League Champ','World Series'],
+    east: [['Braves','Phillies'],['Mets','Pirates'],['Orioles','Blue Jays'],['Yankees','Red Sox']],
+    west: [['Dodgers','Padres'],['Astros','Mariners'],['Rangers','Rays'],['Twins','Angels']]
+  }
+};
+
+let bracketPicks = {};
+
+function renderBracket() {
+  const league = document.getElementById('bracketLeague').value;
+  const data = bracketData[league];
+  bracketPicks[league] = bracketPicks[league] || {};
+  const picks = bracketPicks[league];
+  const cont = document.getElementById('bracket-container');
+
+  // Build initial round matchups
+  let html = '<div class="bracket">';
+  // Round 1
+  html += `<div class="bracket-round"><div class="bracket-label">${data.rounds[0]}</div>`;
+  const r1teams = [...data.east, ...data.west];
+  r1teams.forEach((m, idx) => {
+    const p = picks[`r0_${idx}`] || null;
+    html += `<div class="matchup">
+      <div class="matchup-team ${p === m[0] ? 'winner' : ''}" onclick="pickTeam('r0_${idx}','${m[0]}','${league}')">
+        <span class="matchup-seed">${idx*2+1}</span>${m[0]}
+      </div>
+      <div class="matchup-team ${p === m[1] ? 'winner' : ''}" onclick="pickTeam('r0_${idx}','${m[1]}','${league}')">
+        <span class="matchup-seed">${idx*2+2}</span>${m[1]}
+      </div>
+    </div>`;
+  });
+  html += '</div>';
+
+  // Rounds 2-4
+  for (let r = 1; r < 4; r++) {
+    const numMatchups = Math.max(1, 8 / Math.pow(2, r));
+    html += `<div class="bracket-round"><div class="bracket-label">${data.rounds[r]}</div>`;
+    for (let i = 0; i < numMatchups; i++) {
+      const t1 = picks[`r${r-1}_${i*2}`] || '?';
+      const t2 = picks[`r${r-1}_${i*2+1}`] || '?';
+      const p = picks[`r${r}_${i}`] || null;
+      html += `<div class="matchup">
+        <div class="matchup-team ${p === t1 ? 'winner' : ''}" onclick="pickTeam('r${r}_${i}','${t1}','${league}')">
+          <span class="matchup-seed">--</span>${t1}
+        </div>
+        <div class="matchup-team ${p === t2 ? 'winner' : ''}" onclick="pickTeam('r${r}_${i}','${t2}','${league}')">
+          <span class="matchup-seed">--</span>${t2}
+        </div>
+      </div>`;
+    }
+    html += '</div>';
+  }
+  html += '</div>';
+  cont.innerHTML = html;
+
+  // Show champion
+  const champ = picks['r3_0'];
+  const cd = document.getElementById('champion-display');
+  if (champ && champ !== '?') {
+    cd.style.display = 'block';
+    document.getElementById('champion-name').textContent = champ;
+  } else {
+    cd.style.display = 'none';
+  }
+}
+
+function pickTeam(key, team, league) {
+  if (team === '?' || !team) return;
+  bracketPicks[league] = bracketPicks[league] || {};
+  bracketPicks[league][key] = team;
+  renderBracket();
+}
+
+function resetBracket() {
+  const league = document.getElementById('bracketLeague').value;
+  bracketPicks[league] = {};
+  renderBracket();
+}
+
+// -- 3-POINT CONTEST GAME (two-bar: aim + distance) ---------------
+let gameInitialized = false;
+let gameRunning = false;
+let gScore = 0, gMakes = 0, gShotNum = 0, gPosNum = 0;
+let currentShotsThisPos = 0;
+
+// Phase: 'aim' | 'dist' | 'flight' | 'idle'
+let gamePhase = 'idle';
+
+let aimVal = 0, aimDir = 1, aimSpeed = 2.6;
+let aimLocked = false, aimLockedVal = 0;
+let distVal = 0, distDir = 1, distSpeed = 2.2;
+let ballX = 0, ballY = 0, ballTargetX = 0, ballTargetY = 0;
+let ballProgress = 0, shotMade = false, currentMoneyBall = false;
+let feedbackMsg = '', feedbackAlpha = 0;
+let animId = null;
+
+const positions = [
+  { x: 60,  y: 300, label: 'Left Corner' },
+  { x: 150, y: 180, label: 'Left Wing'   },
+  { x: 300, y: 140, label: 'Top of Arc'  },
+  { x: 450, y: 180, label: 'Right Wing'  },
+  { x: 540, y: 300, label: 'Right Corner'}
+];
+const BASKET_X = 300, BASKET_Y = 80;
+const SHOTS_PER_POS = 3;
+const BASE_GREEN_HALF = 12;
+const CLOSE_LO = 25, CLOSE_HI = 75;
+
+function posDistance(pos) {
+  return Math.hypot(pos.x - BASKET_X, pos.y - BASKET_Y);
+}
+const POS_DIST_MIN = Math.min(...positions.map(posDistance));
+const POS_DIST_MAX = Math.max(...positions.map(posDistance));
+
+function greenZone() {
+  const pos = positions[gPosNum] || positions[0];
+  const d = posDistance(pos);
+  const t = (d - POS_DIST_MIN) / (POS_DIST_MAX - POS_DIST_MIN);
+  const half = BASE_GREEN_HALF - t * 7;
+  return { lo: 50 - half, hi: 50 + half };
+}
+
+function isMoneyBall() { return (gShotNum % 3) === 2; }
+
+function initGameCanvas() {
+  gameInitialized = true;
+  const canvas = document.getElementById('game-canvas');
+  canvas.addEventListener('click', handleClick);
+  window.addEventListener('keydown', (e) => {
+    if (e.code === 'Space' && gameRunning) { e.preventDefault(); handleClick(); }
+  });
+  drawCourt();
+}
+
+function drawCourt() {
+  const canvas = document.getElementById('game-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = '#0d1e3a'; ctx.fillRect(0, 0, 600, 460);
+  ctx.fillStyle = '#c8852a'; ctx.fillRect(30, 60, 540, 320);
+  ctx.strokeStyle = 'rgba(255,255,255,0.5)'; ctx.lineWidth = 2;
+  ctx.strokeRect(30, 60, 540, 320);
+  ctx.strokeStyle = 'rgba(255,255,255,0.4)'; ctx.lineWidth = 1.5;
+  ctx.strokeRect(225, 60, 150, 140);
+  ctx.beginPath(); ctx.arc(BASKET_X, 60, 220, 0, Math.PI, false);
+  ctx.strokeStyle = 'rgba(255,255,255,0.5)'; ctx.lineWidth = 2; ctx.stroke();
+  ctx.beginPath(); ctx.arc(BASKET_X, 200, 60, 0, Math.PI * 2);
+  ctx.strokeStyle = 'rgba(255,255,255,0.3)'; ctx.lineWidth = 1; ctx.stroke();
+  ctx.fillStyle = '#ff6600'; ctx.beginPath(); ctx.arc(BASKET_X, BASKET_Y, 14, 0, Math.PI * 2); ctx.fill();
+  ctx.strokeStyle = '#ff4400'; ctx.lineWidth = 3; ctx.stroke();
+  ctx.fillStyle = '#ffffff'; ctx.fillRect(BASKET_X-30, BASKET_Y-20, 60, 6);
+}
+
+function startGame() {
+  gScore = 0; gMakes = 0; gShotNum = 0; gPosNum = 0; currentShotsThisPos = 0;
+  aimVal = 0; aimDir = 1; aimLocked = false; aimLockedVal = 50;
+  distVal = 0; distDir = 1; feedbackMsg = ''; feedbackAlpha = 0; currentMoneyBall = false;
+  gameRunning = true; gamePhase = 'aim';
+  document.getElementById('game-start-btn').style.display = 'none';
+  document.getElementById('game-msg').textContent = 'CLICK to lock AIM \u2194';
+  updateStats();
+  if (animId) cancelAnimationFrame(animId);
+  gameLoop();
+}
+
+function gameLoop() {
+  const canvas = document.getElementById('game-canvas');
+  if (!canvas || !gameRunning) return;
+  const ctx = canvas.getContext('2d');
+  if (gamePhase === 'aim') { aimVal += aimDir * aimSpeed; if (aimVal >= 100 || aimVal <= 0) aimDir *= -1; }
+  if (gamePhase === 'dist') { distVal += distDir * distSpeed; if (distVal >= 100 || distVal <= 0) distDir *= -1; }
+  if (gamePhase === 'flight') {
+    ballProgress += 0.038;
+    if (ballProgress >= 1) {
+      ballProgress = 1; gamePhase = 'aim';
+      aimVal = 0; aimDir = 1; aimLocked = false; distVal = 0; distDir = 1;
+      if (shotMade) {
+        const pts = currentMoneyBall ? 4 : 3;
+        gScore += pts; gMakes++;
+        feedbackMsg = currentMoneyBall ? '\ud83d\udfe2 MONEY! +4' : 'SWISH! +3';
+      } else {
+        feedbackMsg = 'MISS!';
+      }
+      feedbackAlpha = 1.6; gShotNum++; currentShotsThisPos++;
+      updateStats(); checkAdvance();
+      if (gameRunning) document.getElementById('game-msg').textContent = 'CLICK to lock AIM \u2194';
+    }
+  }
+  if (feedbackAlpha > 0) feedbackAlpha -= 0.022;
+  drawCourt();
+  drawPositionMarkers(ctx);
+  drawAimLine(ctx);
+  drawBars(ctx);
+  if (gamePhase === 'flight') drawBall(ctx);
+  if (feedbackAlpha > 0) drawFeedback(ctx);
+  animId = requestAnimationFrame(gameLoop);
+}
+
+function drawPositionMarkers(ctx) {
+  positions.forEach((pos, i) => {
+    const isActive = i === gPosNum && gameRunning;
+    ctx.beginPath(); ctx.arc(pos.x, pos.y, isActive ? 16 : 10, 0, Math.PI * 2);
+    ctx.fillStyle = isActive ? 'rgba(240,192,64,0.9)' : 'rgba(240,192,64,0.3)'; ctx.fill();
+    ctx.strokeStyle = '#f0c040'; ctx.lineWidth = 2; ctx.stroke();
+    if (isActive) {
+      ctx.fillStyle = '#0a1628'; ctx.font = 'bold 12px Barlow Condensed, sans-serif';
+      ctx.textAlign = 'center'; ctx.fillText(i + 1, pos.x, pos.y + 4);
+    }
+  });
+}
+
+function drawAimLine(ctx) {
+  if (gamePhase !== 'dist' && gamePhase !== 'flight') return;
+  const pos = positions[gPosNum];
+  const tx = BASKET_X + ((aimLockedVal - 50) / 50) * 130;
+  const gz = greenZone();
+  ctx.save(); ctx.setLineDash([6, 5]);
+  ctx.strokeStyle = (aimLockedVal >= gz.lo && aimLockedVal <= gz.hi) ? 'rgba(60,200,80,0.65)' : 'rgba(240,192,64,0.5)';
+  ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(pos.x, pos.y); ctx.lineTo(tx, BASKET_Y); ctx.stroke();
+  ctx.setLineDash([]); ctx.restore();
+}
+
+function drawBars(ctx) {
+  if (!gameRunning || gamePhase === 'flight') return;
+  const gz = greenZone();
+  const money = isMoneyBall();
+  const barColor = money ? 'rgba(40,180,80,0.85)' : 'rgba(60,200,80,0.8)';
+  const barColorDim = money ? 'rgba(40,180,80,0.35)' : 'rgba(60,200,80,0.3)';
+
+  // -- Horizontal AIM bar --
+  const ax = 30, ay = 408, aw = 530, ah = 18;
+  const aimActive = gamePhase === 'aim';
+  ctx.fillStyle = aimActive ? 'rgba(0,0,0,0.6)' : 'rgba(0,0,0,0.25)';
+  ctx.beginPath(); ctx.roundRect(ax, ay, aw, ah, 8); ctx.fill();
+  // green zone sized by distance
+  const gAimW = aw * ((gz.hi - gz.lo) / 100);
+  const gAimX = ax + aw * (gz.lo / 100);
+  ctx.fillStyle = aimActive ? barColor : barColorDim;
+  ctx.beginPath(); ctx.roundRect(gAimX, ay, gAimW, ah, 4); ctx.fill();
+  if (!aimActive) {
+    const lx = ax + (aimLockedVal / 100) * aw;
+    ctx.fillStyle = (aimLockedVal >= gz.lo && aimLockedVal <= gz.hi) ? '#3cc850' : '#ff6060';
+    ctx.beginPath(); ctx.roundRect(lx - 4, ay - 2, 8, ah + 4, 4); ctx.fill();
+  } else {
+    const ix = ax + (aimVal / 100) * aw;
+    ctx.fillStyle = money ? '#3cdc60' : '#ffffff';
+    ctx.beginPath(); ctx.roundRect(ix - 4, ay - 2, 8, ah + 4, 4); ctx.fill();
+  }
+  ctx.fillStyle = aimActive ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.35)';
+  ctx.font = (aimActive ? 'bold ' : '') + '11px Barlow, sans-serif';
+  ctx.textAlign = 'left';
+  ctx.fillText(aimActive ? '\u2190 AIM  (1st click) \u2192' : '\u2190 AIM locked \u2714', ax, ay - 5);
+  // money ball label on aim bar
+  if (money && aimActive) {
+    ctx.fillStyle = '#3cdc60';
+    ctx.font = 'bold 11px Barlow, sans-serif';
+    ctx.textAlign = 'right';
+    ctx.fillText('\ud83d\udfe2 MONEY BALL +1', ax + aw, ay - 5);
+  }
+
+  // -- Vertical DISTANCE bar (right side) --
+  const vx = 572, vy = 70, vw = 18, vh = 320;
+  const distActive = gamePhase === 'dist';
+  ctx.fillStyle = distActive ? 'rgba(0,0,0,0.6)' : 'rgba(0,0,0,0.12)';
+  ctx.beginPath(); ctx.roundRect(vx, vy, vw, vh, 8); ctx.fill();
+  if (distActive) {
+    const gTop = vy + vh * (gz.lo / 100);
+    const gH   = vh * ((gz.hi - gz.lo) / 100);
+    ctx.fillStyle = barColor;
+    ctx.beginPath(); ctx.roundRect(vx, gTop, vw, gH, 4); ctx.fill();
+    const iy = vy + (distVal / 100) * vh;
+    ctx.fillStyle = money ? '#3cdc60' : '#ffffff';
+    ctx.beginPath(); ctx.roundRect(vx - 2, iy - 4, vw + 4, 8, 4); ctx.fill();
+    ctx.save(); ctx.translate(vx + vw / 2, vy + vh / 2); ctx.rotate(-Math.PI / 2);
+    ctx.fillStyle = 'rgba(255,255,255,0.9)'; ctx.font = 'bold 11px Barlow, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('\u2191 DISTANCE  (2nd click) \u2193', 0, -12);
+    ctx.restore();
+  }
+}
+
+function drawBall(ctx) {
+  const t = ballProgress;
+  const eased = t < 0.5 ? 2*t*t : -1+(4-2*t)*t;
+  const cx = ballX + (ballTargetX - ballX) * eased;
+  const arcH = 115;
+  const cy = ballY + (ballTargetY - ballY) * eased - arcH * Math.sin(Math.PI * t);
+  ctx.beginPath(); ctx.arc(cx, cy, 12, 0, Math.PI * 2);
+  ctx.fillStyle = currentMoneyBall ? '#2ab84a' : '#e85d2a'; ctx.fill();
+  ctx.strokeStyle = currentMoneyBall ? '#0f6e2a' : '#3a1a08'; ctx.lineWidth = 1.5; ctx.stroke();
+  ctx.beginPath(); ctx.arc(cx, cy, 12, -0.5, 0.5);
+  ctx.strokeStyle = currentMoneyBall ? '#1a9a3a' : '#8b3010'; ctx.lineWidth = 1; ctx.stroke();
+}
+
+function drawFeedback(ctx) {
+  const alpha = Math.min(feedbackAlpha, 1);
+  const pos = positions[Math.min(gPosNum, positions.length-1)];
+  ctx.globalAlpha = alpha;
+  ctx.font = 'bold 24px Barlow Condensed, sans-serif'; ctx.textAlign = 'center';
+  if (!shotMade) ctx.fillStyle = '#ff6060';
+  else if (currentMoneyBall) ctx.fillStyle = '#3cdc60';
+  else ctx.fillStyle = '#f0c040';
+  ctx.fillText(feedbackMsg, pos.x, pos.y - 30 - (1.6 - feedbackAlpha) * 18);
+  ctx.globalAlpha = 1;
+}
+
+function handleClick() {
+  if (!gameRunning || gamePhase === 'flight') return;
+  if (gamePhase === 'aim') {
+    aimLockedVal = aimVal; aimLocked = true; gamePhase = 'dist'; distVal = 0; distDir = 1;
+    document.getElementById('game-msg').textContent = 'CLICK to lock DISTANCE \u2195';
+    return;
+  }
+  if (gamePhase === 'dist') {
+    const dLocked = distVal;
+    const gz = greenZone();
+    currentMoneyBall = isMoneyBall();
+    const pos = positions[gPosNum];
+    ballX = pos.x; ballY = pos.y; ballProgress = 0;
+    const aimGreen  = aimLockedVal >= gz.lo && aimLockedVal <= gz.hi;
+    const distGreen = dLocked      >= gz.lo && dLocked      <= gz.hi;
+    const aimClose  = aimLockedVal >= CLOSE_LO && aimLockedVal <= CLOSE_HI;
+    const distClose = dLocked      >= CLOSE_LO && dLocked      <= CLOSE_HI;
+    if (aimGreen && distGreen) shotMade = true;
+    else if (aimClose && distClose) shotMade = Math.random() < 0.55;
+    else if ((aimGreen || aimClose) && (distGreen || distClose)) shotMade = Math.random() < 0.3;
+    else shotMade = false;
+    const aimOffset = ((aimLockedVal - 50) / 50) * 130;
+    const distOffset = ((dLocked - 50) / 50) * 38;
+    ballTargetX = BASKET_X + aimOffset + (shotMade ? 0 : (Math.random() - 0.5) * 16);
+    ballTargetY = BASKET_Y + (shotMade ? 0 : distOffset);
+    gamePhase = 'flight';
+    document.getElementById('game-msg').textContent = '';
+  }
+}
+
+function checkAdvance() {
+  if (currentShotsThisPos >= SHOTS_PER_POS) {
+    currentShotsThisPos = 0; gPosNum++;
+    if (gPosNum >= positions.length) { endGame(); return; }
+    document.getElementById('game-msg').textContent = `\ud83d\udccd Position ${gPosNum+1}: ${positions[gPosNum].label}`;
+    setTimeout(() => {
+      if (gameRunning && gamePhase === 'aim')
+        document.getElementById('game-msg').textContent = 'CLICK to lock AIM \u2194';
+    }, 1600);
+  }
+}
+
+function updateStats() {
+  document.getElementById('g-score').textContent = gScore;
+  document.getElementById('g-makes').textContent = gMakes;
+  document.getElementById('g-shot').textContent = Math.min(gShotNum + 1, 15);
+  document.getElementById('g-pos').textContent = Math.min(gPosNum + 1, 5);
+}
+
+function endGame() {
+  gameRunning = false; gamePhase = 'idle';
+  if (animId) cancelAnimationFrame(animId);
+  drawCourt();
+  const canvas = document.getElementById('game-canvas');
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = 'rgba(10,22,40,0.88)';
+  ctx.beginPath(); ctx.roundRect(80, 135, 440, 210, 12); ctx.fill();
+  ctx.strokeStyle = '#f0c040'; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.roundRect(80, 135, 440, 210, 12); ctx.stroke();
+  ctx.fillStyle = '#f0c040'; ctx.font = 'bold 36px Barlow Condensed, sans-serif';
+  ctx.textAlign = 'center'; ctx.fillText('CONTEST OVER!', 300, 200);
+  ctx.fillStyle = '#ffffff'; ctx.font = 'bold 22px Barlow Condensed, sans-serif';
+  ctx.fillText(`Final Score: ${gScore} pts (${gMakes}/15 made)`, 300, 242);
+  const pct = Math.round((gMakes/15)*100);
+  const grade = gScore>=52?'\ud83d\udd25 Elite Shooter!':gScore>=36?'\u2b50 Solid Range':gScore>=24?'\ud83d\udcc8 Keep Practicing':'\ud83d\udcaa Keep Going!';
+  ctx.fillStyle = '#8a96a8'; ctx.font = '16px Barlow, sans-serif';
+  ctx.fillText(`${pct}% accuracy \u2014 ${grade}`, 300, 272);
+  ctx.fillStyle = '#3cdc60'; ctx.font = '13px Barlow, sans-serif';
+  ctx.fillText('Max possible: 60 pts (15 makes + 5 money ball bonuses)', 300, 296);
+  document.getElementById('game-start-btn').textContent = 'Play Again';
+  document.getElementById('game-start-btn').style.display = 'inline-block';
+  document.getElementById('game-msg').textContent = '';
+}
+
+// -- RECORD PREDICTOR ---------------------------------------------
+// Sport configs: teams with baseline avg pts scored & allowed, season games
+const predictorData = {
+  nfl: {
+    label: '🏈 NFL', games: 17, ptLabel: 'Pts/Game', defLabel: 'Opp Pts/Game',
+    teams: [
+      { name: 'Chiefs',    avgPts: 27.3, avgAllowed: 19.2 },
+      { name: 'Eagles',    avgPts: 26.8, avgAllowed: 20.1 },
+      { name: '49ers',     avgPts: 24.9, avgAllowed: 18.7 },
+      { name: 'Cowboys',   avgPts: 25.1, avgAllowed: 22.4 },
+      { name: 'Lions',     avgPts: 28.2, avgAllowed: 23.1 },
+      { name: 'Bills',     avgPts: 26.5, avgAllowed: 21.3 },
+      { name: 'Ravens',    avgPts: 25.8, avgAllowed: 19.9 },
+      { name: 'Dolphins',  avgPts: 27.0, avgAllowed: 24.2 },
+    ]
+  },
+  nba: {
+    label: '🏀 NBA', games: 82, ptLabel: 'Pts/Game', defLabel: 'Opp Pts/Game',
+    teams: [
+      { name: 'Celtics',   avgPts: 120.6, avgAllowed: 109.8 },
+      { name: 'Nuggets',   avgPts: 115.3, avgAllowed: 111.2 },
+      { name: 'Warriors',  avgPts: 118.1, avgAllowed: 114.5 },
+      { name: 'Bucks',     avgPts: 116.4, avgAllowed: 113.7 },
+      { name: 'Lakers',    avgPts: 114.5, avgAllowed: 116.1 },
+      { name: 'Suns',      avgPts: 117.8, avgAllowed: 115.9 },
+      { name: 'Knicks',    avgPts: 112.3, avgAllowed: 110.4 },
+      { name: 'Heat',      avgPts: 109.7, avgAllowed: 108.2 },
+    ]
+  },
+  mlb: {
+    label: '⚾ MLB', games: 162, ptLabel: 'Runs/Game', defLabel: 'Opp Runs/Game',
+    teams: [
+      { name: 'Dodgers',   avgPts: 5.1, avgAllowed: 3.8 },
+      { name: 'Braves',    avgPts: 5.3, avgAllowed: 4.1 },
+      { name: 'Yankees',   avgPts: 4.9, avgAllowed: 4.0 },
+      { name: 'Astros',    avgPts: 4.7, avgAllowed: 3.9 },
+      { name: 'Rangers',   avgPts: 4.8, avgAllowed: 4.3 },
+      { name: 'Orioles',   avgPts: 4.6, avgAllowed: 4.0 },
+      { name: 'Phillies',  avgPts: 4.9, avgAllowed: 4.4 },
+      { name: 'Cubs',      avgPts: 4.4, avgAllowed: 4.5 },
+    ]
+  },
+  soccer: {
+    label: '⚽ Soccer (EPL)', games: 38, ptLabel: 'Goals/Game', defLabel: 'Opp Goals/Game',
+    teams: [
+      { name: 'Man City',  avgPts: 2.4, avgAllowed: 0.9 },
+      { name: 'Arsenal',   avgPts: 2.2, avgAllowed: 1.0 },
+      { name: 'Liverpool', avgPts: 2.3, avgAllowed: 1.1 },
+      { name: 'Chelsea',   avgPts: 1.6, avgAllowed: 1.3 },
+      { name: 'Spurs',     avgPts: 1.5, avgAllowed: 1.4 },
+      { name: 'Man Utd',   avgPts: 1.3, avgAllowed: 1.5 },
+      { name: 'Newcastle', avgPts: 1.7, avgAllowed: 1.2 },
+      { name: 'Aston Villa',avgPts: 1.8, avgAllowed: 1.3 },
+    ]
+  },
+  golf: {
+    label: '⛳ Golf (PGA)', games: 24, ptLabel: 'Avg Score (under par)', defLabel: 'Cut Line',
+    teams: [
+      { name: 'Scheffler',  avgPts: 4.2, avgAllowed: 2.0 },
+      { name: 'McIlroy',    avgPts: 3.8, avgAllowed: 2.0 },
+      { name: 'Rahm',       avgPts: 3.5, avgAllowed: 2.0 },
+      { name: 'Morikawa',   avgPts: 3.1, avgAllowed: 2.0 },
+      { name: 'Hovland',    avgPts: 2.9, avgAllowed: 2.0 },
+      { name: 'DeChambeau', avgPts: 3.3, avgAllowed: 2.0 },
+      { name: 'Thomas',     avgPts: 2.7, avgAllowed: 2.0 },
+      { name: 'Fleetwood',  avgPts: 2.5, avgAllowed: 2.0 },
+    ]
+  }
+};
+
+// State: which team is selected per sport, and the adjusted avgPts slider value
+const predictorState = {};
+const predictorCharts = {};
+
+function initPredictorState() {
+  Object.keys(predictorData).forEach(sport => {
+    predictorState[sport] = {
+      teamIdx: 0,
+      adjPts: predictorData[sport].teams[0].avgPts
+    };
+  });
+}
+
+// Win probability per game given pts scored vs allowed (logistic-style model)
+function winProb(scored, allowed) {
+  const diff = scored - allowed;
+  // Sigmoid: steeper for low-scoring sports
+  const scale = allowed < 5 ? 1.4 : allowed < 30 ? 0.08 : 0.04;
+  return 1 / (1 + Math.exp(-diff * scale));
+}
+
+// Project season record given avgPts, avgAllowed, and total games
+// Returns array of {game, wins, losses} for each game in season
+function projectRecord(avgPts, avgAllowed, totalGames) {
+  const wp = winProb(avgPts, avgAllowed);
+  const points = [];
+  let wins = 0, losses = 0;
+  for (let g = 1; g <= totalGames; g++) {
+    // Simulate with variance
+    const scoredThisGame  = avgPts    * (0.8 + Math.random() * 0.4);
+    const allowedThisGame = avgAllowed * (0.8 + Math.random() * 0.4);
+    if (scoredThisGame > allowedThisGame) wins++; else losses++;
+    points.push({ game: g, wins, losses });
+  }
+  return points;
+}
+
+// Deterministic projection (expected W/L at each game number)
+function projectRecordDeterministic(avgPts, avgAllowed, totalGames) {
+  const wp = winProb(avgPts, avgAllowed);
+  const points = [];
+  for (let g = 1; g <= totalGames; g++) {
+    points.push({ game: g, wins: +(wp * g).toFixed(1), losses: +((1 - wp) * g).toFixed(1) });
+  }
+  return points;
+}
+
+function renderPredictorCards() {
+  const cont = document.getElementById('predictor-cards');
+  const sports = Object.keys(predictorData);
+  cont.innerHTML = sports.map(sport => `
+    <div class="col-lg-6">
+      <div class="sh-card" style="padding:1.25rem;">
+        <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:0.5rem; margin-bottom:1rem;">
+          <span style="font-family:var(--font-display); font-size:1.2rem; font-weight:700; letter-spacing:1px;">${predictorData[sport].label}</span>
+          <select id="team-select-${sport}" onchange="onTeamChange('${sport}', this.value)"
+            style="background:var(--navy-light);border:1px solid var(--light-border);color:var(--white);font-family:var(--font-display);font-size:0.9rem;padding:4px 10px;border-radius:6px;">
+            ${predictorData[sport].teams.map((t,i) => `<option value="${i}">${t.name}</option>`).join('')}
+          </select>
+        </div>
+
+        <div style="display:flex; align-items:center; gap:1rem; margin-bottom:0.75rem; flex-wrap:wrap;">
+          <label style="font-family:var(--font-display); font-size:0.8rem; color:var(--gray); letter-spacing:1px; text-transform:uppercase; white-space:nowrap;">
+            ${predictorData[sport].ptLabel}
+          </label>
+          <input type="range" id="pts-slider-${sport}"
+            min="${getSliderMin(sport)}" max="${getSliderMax(sport)}" step="${getSliderStep(sport)}"
+            value="${predictorState[sport].adjPts}"
+            oninput="onSliderChange('${sport}', this.value)"
+            style="flex:1; min-width:120px;">
+          <span id="pts-val-${sport}" style="font-family:var(--font-display); font-size:1rem; font-weight:700; color:var(--gold); min-width:3.5rem; text-align:right;">
+            ${predictorState[sport].adjPts}
+          </span>
+        </div>
+
+        <div id="record-label-${sport}" style="font-family:var(--font-display); font-size:0.95rem; color:var(--gray); margin-bottom:0.5rem;"></div>
+
+        <div style="position:relative; height:200px;">
+          <canvas id="chart-${sport}"></canvas>
+        </div>
+      </div>
+    </div>
+  `).join('');
+
+  // Build all charts after DOM is ready
+  requestAnimationFrame(() => {
+    sports.forEach(sport => buildChart(sport));
+  });
+}
+
+function getSliderMin(sport) {
+  const d = predictorData[sport];
+  const min = Math.min(...d.teams.map(t => t.avgPts));
+  return sport === 'golf' ? (min - 2).toFixed(1) : sport === 'mlb' || sport === 'soccer' ? (min - 1.5).toFixed(1) : Math.floor(min * 0.7);
+}
+function getSliderMax(sport) {
+  const d = predictorData[sport];
+  const max = Math.max(...d.teams.map(t => t.avgPts));
+  return sport === 'golf' ? (max + 2).toFixed(1) : sport === 'mlb' || sport === 'soccer' ? (max + 1.5).toFixed(1) : Math.ceil(max * 1.3);
+}
+function getSliderStep(sport) {
+  return (sport === 'mlb' || sport === 'soccer' || sport === 'golf') ? 0.1 : 1;
+}
+
+function buildChart(sport) {
+  const canvasEl = document.getElementById('chart-' + sport);
+  if (!canvasEl) return;
+  if (predictorCharts[sport]) { predictorCharts[sport].destroy(); }
+
+  const state = predictorState[sport];
+  const d = predictorData[sport];
+  const team = d.teams[state.teamIdx];
+  const totalGames = d.games;
+  const pts = parseFloat(state.adjPts);
+  const allowed = team.avgAllowed;
+
+  const projection = projectRecordDeterministic(pts, allowed, totalGames);
+  const labels = projection.map(p => p.game);
+  const winsData = projection.map(p => p.wins);
+  const lossesData = projection.map(p => p.losses);
+
+  // Projected final record
+  const finalW = Math.round(winsData[winsData.length - 1]);
+  const finalL = totalGames - finalW;
+  const wp = winProb(pts, allowed);
+  document.getElementById('record-label-' + sport).innerHTML =
+    `<span style="color:var(--white); font-weight:700;">${team.name}</span> &nbsp;·&nbsp; ` +
+    `Projected: <span style="color:${finalW >= finalL ? '#3cdc60' : '#ff6060'}; font-weight:700;">${finalW}-${finalL}</span> &nbsp;·&nbsp; ` +
+    `Win%: <span style="color:var(--gold);">${(wp * 100).toFixed(1)}%</span>`;
+
+  // Thin out labels for readability
+  const step = totalGames <= 24 ? 4 : totalGames <= 38 ? 5 : totalGames <= 82 ? 10 : 20;
+  const sparseLabels = labels.map(l => l % step === 0 ? l : '');
+
+  predictorCharts[sport] = new Chart(canvasEl, {
+    type: 'line',
+    data: {
+      labels: sparseLabels,
+      datasets: [
+        {
+          label: 'Projected Wins',
+          data: winsData,
+          borderColor: '#3cdc60',
+          backgroundColor: 'rgba(60,220,96,0.12)',
+          borderWidth: 2,
+          pointRadius: 0,
+          fill: true,
+          tension: 0.3
+        },
+        {
+          label: 'Projected Losses',
+          data: lossesData,
+          borderColor: '#ff6060',
+          backgroundColor: 'rgba(255,96,96,0.08)',
+          borderWidth: 2,
+          pointRadius: 0,
+          fill: true,
+          tension: 0.3
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 300 },
+      plugins: {
+        legend: {
+          labels: { color: '#8a96a8', font: { family: 'Barlow', size: 11 }, boxWidth: 12 }
+        },
+        tooltip: {
+          backgroundColor: 'rgba(18,32,64,0.95)',
+          titleColor: '#f0c040',
+          bodyColor: '#ffffff',
+          borderColor: 'rgba(240,192,64,0.3)',
+          borderWidth: 1,
+          callbacks: {
+            title: items => `Game ${items[0].label}`,
+            label: item => ` ${item.dataset.label}: ${parseFloat(item.raw).toFixed(1)}`
+          }
+        }
+      },
+      scales: {
+        x: {
+          ticks: { color: '#8a96a8', font: { size: 10 }, maxRotation: 0 },
+          grid: { color: 'rgba(255,255,255,0.05)' },
+          title: { display: true, text: 'Game #', color: '#8a96a8', font: { size: 10 } }
+        },
+        y: {
+          ticks: { color: '#8a96a8', font: { size: 10 } },
+          grid: { color: 'rgba(255,255,255,0.05)' },
+          title: { display: true, text: 'Games', color: '#8a96a8', font: { size: 10 } },
+          min: 0,
+          max: totalGames
+        }
+      }
+    }
+  });
+}
+
+function onTeamChange(sport, idx) {
+  predictorState[sport].teamIdx = parseInt(idx);
+  const team = predictorData[sport].teams[predictorState[sport].teamIdx];
+  predictorState[sport].adjPts = team.avgPts;
+  document.getElementById('pts-slider-' + sport).value = team.avgPts;
+  document.getElementById('pts-val-' + sport).textContent = team.avgPts;
+  buildChart(sport);
+}
+
+function onSliderChange(sport, val) {
+  const v = parseFloat(val);
+  predictorState[sport].adjPts = v;
+  const step = getSliderStep(sport);
+  document.getElementById('pts-val-' + sport).textContent = step < 1 ? v.toFixed(1) : Math.round(v);
+  buildChart(sport);
+}
+
+// Render predictor when scores page first shown
+
+
+
+// -- 3-HOLE GOLF GAME ---------------------------------------------
+let puttInitialized = false;
+let gRunning = false;
+let gPhase = 'idle'; // 'aim'|'power'|'flying'|'rolling'|'holed'|'maxed'
+
+// Game state
+let gHoleIdx = 0;         // 0,1,2
+let gStroke = 0;          // strokes this hole
+let gTotalStrokes = 0;    // over whole round
+let gTotalPar = 11;       // 3+4+4
+let gHoleScores = [null, null, null];
+
+// Ball physics
+let gBall = { x:0, y:0 };
+let gVX = 0, gVY = 0;     // velocity (px/frame)
+let gInAir = false;       // true while flying, false while rolling
+let gAimAngle = 0;        // radians from ball toward click
+let gPowAnim = 0, gPowDir = 1, gPowSpeed = 1.8; // power bar 0-100
+let gPowLocked = 0;
+let gAnimId = null;
+let gBallTrail = [];      // [{x,y}] last N positions
+let gFeedbackMsg = '';
+let gFeedbackAlpha = 0;
+
+const GW = 600, GH = 480;
+
+// -- HOLE DEFINITIONS ---------------------------------------------
+// Each hole: tee, pin, fairway polygons, hazards (water/sand/rough/bunker)
+// Coordinates in 600×480 canvas space
+const gHoles = [
+  // HOLE 1 -- Par 3, 150yd, island green, water surrounds
+  {
+    par: 3, name: 'Hole 1', yardage: '150 yd', index: 'Par 3',
+    tee: { x: 300, y: 440 },
+    pin: { x: 300, y: 95 },
+    green: { cx: 300, cy: 95, rx: 36, ry: 28 },
+    fairway: [
+      // Narrow bridge fairway with bunkers each side
+      { type: 'fairway', pts: [[255,430],[345,430],[340,120],[260,120]] },
+    ],
+    hazards: [
+      // Water left
+      { type: 'water', pts: [[0,0],[250,0],[255,480],[0,480]] },
+      // Water right
+      { type: 'water', pts: [[350,0],[600,0],[600,480],[345,480]] },
+      // Bunker left of green
+      { type: 'sand',  cx: 248, cy: 105, rx: 20, ry: 12 },
+      // Bunker right of green
+      { type: 'sand',  cx: 352, cy: 105, rx: 20, ry: 12 },
+      // Front bunker
+      { type: 'sand',  cx: 300, cy: 135, rx: 22, ry: 10 },
+    ]
+  },
+
+  // HOLE 2 -- Par 4, dogleg right, creek, fairway bunkers
+  {
+    par: 4, name: 'Hole 2', yardage: '380 yd', index: 'Par 4',
+    tee: { x: 80, y: 430 },
+    pin: { x: 500, y: 80 },
+    green: { cx: 500, cy: 80, rx: 38, ry: 26 },
+    fairway: [
+      // First straight section heading right
+      { type: 'fairway', pts: [[50,400],[200,400],[200,260],[50,280]] },
+      // Corner area
+      { type: 'fairway', pts: [[160,280],[300,280],[300,200],[160,240]] },
+      // Second leg heading up-right
+      { type: 'fairway', pts: [[260,220],[540,120],[540,50],[260,140]] },
+    ],
+    hazards: [
+      // Rough everywhere outside fairway
+      { type: 'rough', pts: [[0,0],[600,0],[600,480],[0,480]] },
+      // Creek cutting across mid-fairway
+      { type: 'water', pts: [[190,170],[240,170],[230,310],[180,310]] },
+      // OB trees left
+      { type: 'trees', pts: [[0,0],[60,0],[60,480],[0,480]] },
+      // Fairway bunker right of first leg
+      { type: 'sand', cx: 240, cy: 340, rx: 28, ry: 16 },
+      // Greenside bunker left
+      { type: 'sand', cx: 455, cy: 90, rx: 22, ry: 14 },
+      // Greenside bunker right
+      { type: 'sand', cx: 545, cy: 75, rx: 18, ry: 12 },
+      // Water hazard short left
+      { type: 'water', pts: [[380,190],[430,185],[435,240],[375,245]] },
+    ]
+  },
+
+  // HOLE 3 -- Par 4, long straight, big rough, double bunker, pond
+  {
+    par: 4, name: 'Hole 3', yardage: '420 yd', index: 'Par 4',
+    tee: { x: 300, y: 455 },
+    pin: { x: 300, y: 60 },
+    green: { cx: 300, cy: 60, rx: 40, ry: 28 },
+    fairway: [
+      { type: 'fairway', pts: [[240,445],[360,445],[350,200],[250,200]] },
+      // Wider landing area in middle
+      { type: 'fairway', pts: [[220,300],[380,300],[350,200],[250,200]] },
+    ],
+    hazards: [
+      // Thick rough left
+      { type: 'rough', pts: [[0,0],[230,0],[240,480],[0,480]] },
+      // Thick rough right
+      { type: 'rough', pts: [[370,0],[600,0],[600,480],[360,480]] },
+      // OB out-of-bounds top
+      { type: 'ob', pts: [[0,0],[600,0],[600,30],[0,30]] },
+      // Pond left-center
+      { type: 'water', pts: [[175,290],[240,285],[235,360],[170,365]] },
+      // Pond right-center
+      { type: 'water', pts: [[365,285],[430,290],[425,360],[360,365]] },
+      // Double fairway bunker left
+      { type: 'sand', cx: 255, cy: 200, rx: 22, ry: 13 },
+      { type: 'sand', cx: 270, cy: 230, rx: 18, ry: 10 },
+      // Double fairway bunker right
+      { type: 'sand', cx: 345, cy: 200, rx: 22, ry: 13 },
+      { type: 'sand', cx: 330, cy: 230, rx: 18, ry: 10 },
+      // Greenside bunkers
+      { type: 'sand', cx: 248, cy: 68, rx: 20, ry: 12 },
+      { type: 'sand', cx: 352, cy: 68, rx: 20, ry: 12 },
+      { type: 'sand', cx: 300, cy: 100, rx: 24, ry: 10 },
+    ]
+  }
+];
+
+function initPuttGame() {
+  puttInitialized = true;
+  const c = document.getElementById('golf-canvas');
+  c.addEventListener('click', handleGolfClick);
+  drawGolfHole();
+}
+
+function startGolf() {
+  gHoleIdx = 0; gTotalStrokes = 0;
+  gHoleScores = [null, null, null];
+  document.getElementById('golf-start-btn').style.display = 'none';
+  startHole();
+}
+
+function startHole() {
+  const h = gHoles[gHoleIdx];
+  gStroke = 0;
+  gBall = { x: h.tee.x, y: h.tee.y };
+  gBallTrail = [];
+  gInAir = false; gVX = 0; gVY = 0;
+  gPhase = 'aim';
+  gPowAnim = 0; gPowDir = 1;
+  document.getElementById('golf-power-wrap').style.display = 'none';
+  document.getElementById('golf-msg').textContent = `${h.name} · ${h.yardage} · Par ${h.par}`;
+  setTimeout(() => {
+    if (gPhase === 'aim') document.getElementById('golf-msg').textContent = 'Click the course to aim your shot';
+  }, 1800);
+  updateGolfHUD();
+  if (gAnimId) cancelAnimationFrame(gAnimId);
+  gRunning = true;
+  golfLoop();
+}
+
+function golfLoop() {
+  if (!gRunning) return;
+
+  // Animate power bar
+  if (gPhase === 'power') {
+    gPowAnim += gPowDir * gPowSpeed;
+    if (gPowAnim >= 100 || gPowAnim <= 0) gPowDir *= -1;
+    const bar = document.getElementById('golf-power-bar');
+    if (bar) bar.style.left = gPowAnim + '%';
+  }
+
+  // Ball in flight
+  if (gPhase === 'flying' || gPhase === 'rolling') {
+    moveBall();
+  }
+
+  // Fade feedback
+  if (gFeedbackAlpha > 0) gFeedbackAlpha -= 0.018;
+
+  drawGolfHole();
+  if (gFeedbackAlpha > 0) drawGolfFeedback();
+
+  gAnimId = requestAnimationFrame(golfLoop);
+}
+
+function moveBall() {
+  const speed = Math.sqrt(gVX * gVX + gVY * gVY);
+  if (speed < 0.4 && gPhase === 'rolling') {
+    // Ball stopped -- check where it landed
+    gPhase = 'aim';
+    document.getElementById('golf-power-wrap').style.display = 'none';
+    const terrain = getBallTerrain();
+    if (terrain === 'water') {
+      penaltyDrop();
+    } else if (terrain === 'ob') {
+      penaltyDrop();
+    } else {
+      document.getElementById('golf-msg').textContent = 'Click to aim next shot';
+    }
+    return;
+  }
+
+  // Move ball
+  gBall.x += gVX;
+  gBall.y += gVY;
+  gBallTrail.push({ x: gBall.x, y: gBall.y });
+  if (gBallTrail.length > 28) gBallTrail.shift();
+
+  // Apply friction
+  if (gPhase === 'rolling') {
+    const terrain = getBallTerrain();
+    const friction = terrain === 'sand' ? 0.72 : terrain === 'rough' ? 0.78 : 0.88;
+    gVX *= friction; gVY *= friction;
+  } else {
+    // Flying -- gentle arc, gravity-like
+    gVY += 0.015;
+    const fric = 0.995;
+    gVX *= fric; gVY *= fric;
+    // Transition to rolling when speed drops
+    if (Math.sqrt(gVX*gVX + gVY*gVY) < 3.5) {
+      gPhase = 'rolling';
+    }
+  }
+
+  // Bounce off walls
+  if (gBall.x < 5)   { gBall.x = 5;       gVX = Math.abs(gVX) * 0.3; }
+  if (gBall.x > GW-5){ gBall.x = GW-5;    gVX = -Math.abs(gVX) * 0.3; }
+  if (gBall.y < 5)   { gBall.y = 5;       gVY = Math.abs(gVY) * 0.3; }
+  if (gBall.y > GH-5){ gBall.y = GH-5;    gVY = -Math.abs(gVY) * 0.3; }
+
+  // Check hole (green) -- only when rolling
+  if (gPhase === 'rolling') {
+    const h = gHoles[gHoleIdx];
+    const dx = gBall.x - h.pin.x, dy = gBall.y - h.pin.y;
+    if (Math.sqrt(dx*dx + dy*dy) < 18) {
+      holeMade();
+      return;
+    }
+  }
+}
+
+function handleGolfClick(e) {
+  if (!gRunning) return;
+  const rect = e.target.getBoundingClientRect();
+  const mx = e.clientX - rect.left;
+  const my = e.clientY - rect.top;
+
+  if (gPhase === 'aim') {
+    // Aim toward click
+    const dx = mx - gBall.x, dy = my - gBall.y;
+    gAimAngle = Math.atan2(dy, dx);
+    gPhase = 'power';
+    gPowAnim = 0; gPowDir = 1;
+    document.getElementById('golf-power-wrap').style.display = 'block';
+    document.getElementById('golf-msg').textContent = 'Click again to swing!';
+  } else if (gPhase === 'power') {
+    // Fire shot
+    gPowLocked = gPowAnim;
+    fireShot();
+  }
+}
+
+function fireShot() {
+  gStroke++;
+  gTotalStrokes++;
+  updateGolfHUD();
+
+  document.getElementById('golf-power-wrap').style.display = 'none';
+  document.getElementById('golf-msg').textContent = '';
+
+  // Power maps 0-100 to speed. Sweet spot (40-60) = full distance, edges = weak
+  const h = gHoles[gHoleIdx];
+  const sweetSpot = Math.abs(gPowLocked - 50) < 10;
+  const goodHit   = Math.abs(gPowLocked - 50) < 22;
+
+  // Max speed scales per hole distance
+  const maxSpeeds = [9, 11, 11];
+  let spd = (gPowLocked / 100) * maxSpeeds[gHoleIdx];
+  // Penalty for mis-hit
+  if (!sweetSpot) spd *= goodHit ? 0.78 : 0.55;
+  // Slight direction error on bad hits
+  const drift = sweetSpot ? 0 : (goodHit ? (Math.random()-0.5)*0.18 : (Math.random()-0.5)*0.45);
+
+  gVX = Math.cos(gAimAngle + drift) * spd;
+  gVY = Math.sin(gAimAngle + drift) * spd;
+  gInAir = true;
+  gPhase = 'flying';
+  gBallTrail = [];
+
+  // Shot feedback
+  gFeedbackMsg = sweetSpot ? '💥 FLUSH!' : goodHit ? '👍 Good Shot' : '😬 Mis-hit!';
+  gFeedbackAlpha = 1.4;
+
+  // Max strokes check -- bogey + 3 over par = pickup
+  const maxStrokes = h.par + 3;
+  if (gStroke >= maxStrokes) {
+    setTimeout(() => { if (gPhase !== 'holed') maxPickup(); }, 1200);
+  }
+}
+
+function getBallTerrain() {
+  const h = gHoles[gHoleIdx];
+  const bx = gBall.x, by = gBall.y;
+  for (const hz of h.hazards) {
+    if (hz.type === 'sand' && hz.cx !== undefined) {
+      const dx = (bx - hz.cx) / hz.rx, dy = (by - hz.cy) / hz.ry;
+      if (dx*dx + dy*dy <= 1) return 'sand';
+    } else if (['water','ob','trees'].includes(hz.type) && hz.pts) {
+      if (pointInPoly(bx, by, hz.pts)) return hz.type === 'trees' ? 'rough' : hz.type;
+    } else if (hz.type === 'rough' && hz.pts) {
+      // Check if we're NOT on fairway first
+      let onFairway = false;
+      for (const fw of h.fairway) {
+        if (pointInPoly(bx, by, fw.pts)) { onFairway = true; break; }
+      }
+      if (!onFairway && pointInPoly(bx, by, hz.pts)) return 'rough';
+    }
+  }
+  // Check green
+  const dx = (bx - h.green.cx) / h.green.rx;
+  const dy = (by - h.green.cy) / h.green.ry;
+  if (dx*dx + dy*dy <= 1) return 'green';
+  // Check fairway
+  for (const fw of h.fairway) {
+    if (pointInPoly(bx, by, fw.pts)) return 'fairway';
+  }
+  return 'rough';
+}
+
+function pointInPoly(x, y, pts) {
+  let inside = false;
+  for (let i = 0, j = pts.length - 1; i < pts.length; j = i++) {
+    const xi = pts[i][0], yi = pts[i][1], xj = pts[j][0], yj = pts[j][1];
+    if (((yi > y) !== (yj > y)) && (x < (xj - xi) * (y - yi) / (yj - yi) + xi)) inside = !inside;
+  }
+  return inside;
+}
+
+function penaltyDrop() {
+  gStroke++;
+  gTotalStrokes++;
+  // Drop ball back near tee or last safe spot
+  const h = gHoles[gHoleIdx];
+  gBall = { x: h.tee.x + (Math.random()-0.5)*30, y: h.tee.y - 20 };
+  gBallTrail = [];
+  gFeedbackMsg = '⚠️ Penalty! +1 Stroke';
+  gFeedbackAlpha = 1.8;
+  gPhase = 'aim';
+  updateGolfHUD();
+  setTimeout(() => {
+    if (gPhase === 'aim') document.getElementById('golf-msg').textContent = 'Click to aim your drop shot';
+  }, 1000);
+}
+
+function holeMade() {
+  gPhase = 'holed';
+  gRunning = false;
+  if (gAnimId) cancelAnimationFrame(gAnimId);
+  gBall = { x: gHoles[gHoleIdx].pin.x, y: gHoles[gHoleIdx].pin.y };
+  gBallTrail = [];
+
+  const par = gHoles[gHoleIdx].par;
+  const diff = gStroke - par;
+  const labels = ['🦅 Eagle!','🐦 Birdie!','⛳ Par','📋 Bogey','📋 Double','📋 Triple','📋 +' + diff];
+  const label = diff <= -2 ? labels[0] : diff === -1 ? labels[1] : diff === 0 ? labels[2] : diff === 1 ? labels[3] : diff === 2 ? labels[4] : diff === 3 ? labels[5] : labels[6];
+  gHoleScores[gHoleIdx] = gStroke;
+
+  drawGolfHole();
+  updateGolfHUD();
+  document.getElementById('golf-msg').textContent = label;
+
+  setTimeout(() => {
+    gHoleIdx++;
+    if (gHoleIdx >= gHoles.length) {
+      endGolfRound();
+    } else {
+      document.getElementById('golf-msg').textContent = '';
+      startHole();
+    }
+  }, 2200);
+}
+
+function maxPickup() {
+  const h = gHoles[gHoleIdx];
+  gHoleScores[gHoleIdx] = h.par + 3;
+  gPhase = 'holed';
+  gRunning = false;
+  if (gAnimId) cancelAnimationFrame(gAnimId);
+  gFeedbackMsg = '✋ Max strokes -- pickup!';
+  gFeedbackAlpha = 2;
+  drawGolfHole();
+  updateGolfHUD();
+  document.getElementById('golf-msg').textContent = '✋ Pickup -- moving on';
+  setTimeout(() => {
+    gHoleIdx++;
+    if (gHoleIdx >= gHoles.length) endGolfRound();
+    else { document.getElementById('golf-msg').textContent = ''; startHole(); }
+  }, 2000);
+}
+
+function endGolfRound() {
+  const totalPar = gHoles.reduce((s, h) => s + h.par, 0);
+  const totalStrokes = gHoleScores.reduce((s, v) => s + (v || 0), 0);
+  const diff = totalStrokes - totalPar;
+  const diffStr = diff === 0 ? 'E' : (diff > 0 ? '+' + diff : '' + diff);
+  const grade = diff <= -2 ? '🏆 Unreal!' : diff === -1 ? '🦅 Eagle round!' : diff === 0 ? '⛳ Even par!' : diff <= 3 ? '👍 Solid round' : diff <= 6 ? '💪 Keep practicing' : '😅 Rough day out there';
+
+  const c = document.getElementById('golf-canvas');
+  const ctx = c.getContext('2d');
+  // Dark overlay
+  ctx.fillStyle = 'rgba(8,16,32,0.92)';
+  ctx.fillRect(0, 0, GW, GH);
+  // Card
+  ctx.fillStyle = 'rgba(18,32,64,0.98)';
+  ctx.beginPath(); ctx.roundRect(60, 90, 480, 300, 16); ctx.fill();
+  ctx.strokeStyle = '#f0c040'; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.roundRect(60, 90, 480, 300, 16); ctx.stroke();
+
+  ctx.fillStyle = '#f0c040'; ctx.font = 'bold 30px Barlow Condensed, sans-serif'; ctx.textAlign = 'center';
+  ctx.fillText('ROUND COMPLETE', 300, 136);
+
+  // Scorecard row
+  const cols = [180, 300, 420];
+  ['Hole 1','Hole 2','Hole 3'].forEach((lbl, i) => {
+    ctx.fillStyle = '#8a96a8'; ctx.font = '12px Barlow, sans-serif';
+    ctx.fillText(lbl, cols[i], 168);
+    ctx.fillStyle = '#fff'; ctx.font = 'bold 14px Barlow Condensed, sans-serif';
+    ctx.fillText(`Par ${gHoles[i].par}`, cols[i], 186);
+    const sc = gHoleScores[i] || 0;
+    const d  = sc - gHoles[i].par;
+    ctx.fillStyle = d < 0 ? '#3cdc60' : d === 0 ? '#ffffff' : '#ff9060';
+    ctx.font = 'bold 24px Barlow Condensed, sans-serif';
+    ctx.fillText(sc, cols[i], 220);
+    ctx.fillStyle = '#8a96a8'; ctx.font = '11px Barlow, sans-serif';
+    ctx.fillText(d < 0 ? '' + d : d === 0 ? 'E' : '+' + d, cols[i], 238);
+  });
+
+  ctx.fillStyle = 'rgba(255,255,255,0.1)';
+  ctx.fillRect(80, 252, 440, 1);
+
+  ctx.fillStyle = '#f0c040'; ctx.font = 'bold 22px Barlow Condensed, sans-serif';
+  ctx.fillText(`Total: ${totalStrokes} strokes  (${diffStr})`, 300, 285);
+  ctx.fillStyle = '#ffffff'; ctx.font = 'bold 18px Barlow Condensed, sans-serif';
+  ctx.fillText(grade, 300, 316);
+  ctx.fillStyle = '#8a96a8'; ctx.font = '12px Barlow, sans-serif';
+  ctx.fillText(`Par ${totalPar} · Your score ${totalStrokes}`, 300, 344);
+
+  document.getElementById('golf-msg').textContent = '';
+  const btn = document.getElementById('golf-start-btn');
+  btn.textContent = 'Play Again'; btn.style.display = 'inline-block';
+}
+
+function updateGolfHUD() {
+  const h = gHoles[gHoleIdx] || gHoles[gHoles.length-1];
+  document.getElementById('gs-strokes').textContent = gTotalStrokes;
+  const totalPar = gHoles.slice(0, gHoleIdx).reduce((s, hole) => s + hole.par, 0) + (gStroke || 0);
+  const diffSoFar = gTotalStrokes - gHoles.slice(0, gHoleIdx).reduce((s, hole) => s + hole.par, 0);
+  const ds = gTotalStrokes === 0 ? 'E' : diffSoFar > 0 ? '+' + diffSoFar : '' + diffSoFar;
+  const scoreEl = document.getElementById('gs-score');
+  scoreEl.textContent = ds;
+  scoreEl.style.color = diffSoFar < 0 ? '#3cdc60' : diffSoFar === 0 ? '#3cdc60' : '#ff9060';
+  document.getElementById('gs-hole').textContent = Math.min(gHoleIdx + 1, 3);
+  document.getElementById('gs-par').textContent = h.par;
+  [0,1,2].forEach(i => {
+    const el = document.getElementById('gs-h' + (i+1));
+    if (gHoleScores[i] !== null) {
+      const d = gHoleScores[i] - gHoles[i].par;
+      el.textContent = gHoleScores[i];
+      el.style.color = d < 0 ? '#3cdc60' : d === 0 ? '#ffffff' : '#ff9060';
+    } else {
+      el.textContent = i === gHoleIdx ? gStroke || '--' : '--';
+      el.style.color = '#8a96a8';
+    }
+  });
+}
+
+// -- DRAWING -------------------------------------------------------
+function drawGolfHole() {
+  const c = document.getElementById('golf-canvas');
+  if (!c) return;
+  const ctx = c.getContext('2d');
+  const h = gHoles[Math.min(gHoleIdx, gHoles.length-1)];
+
+  // Background (OB / out of bounds rough)
+  ctx.fillStyle = '#1c3a10';
+  ctx.fillRect(0, 0, GW, GH);
+
+  // Draw hazards first (back to front)
+  for (const hz of h.hazards) {
+    if (hz.type === 'rough' && hz.pts) {
+      ctx.fillStyle = '#1e4010';
+      drawPoly(ctx, hz.pts);
+    }
+  }
+  for (const hz of h.hazards) {
+    if (hz.type === 'water' && hz.pts) {
+      ctx.fillStyle = '#1a3d7a';
+      drawPoly(ctx, hz.pts);
+      // Water ripple lines
+      ctx.save();
+      ctx.strokeStyle = 'rgba(80,160,240,0.25)';
+      ctx.lineWidth = 1;
+      const bounds = polyBounds(hz.pts);
+      for (let ry = bounds.minY + 8; ry < bounds.maxY; ry += 12) {
+        ctx.beginPath();
+        ctx.moveTo(bounds.minX + 4, ry);
+        ctx.lineTo(bounds.maxX - 4, ry);
+        ctx.stroke();
+      }
+      ctx.restore();
+    }
+    if (hz.type === 'trees' && hz.pts) {
+      ctx.fillStyle = '#0a1f08';
+      drawPoly(ctx, hz.pts);
+      ctx.save();
+      for (let tx = 10; tx < 60; tx += 20) {
+        for (let ty = 20; ty < GH - 20; ty += 30) {
+          ctx.fillStyle = 'rgba(20,60,15,0.7)';
+          ctx.beginPath(); ctx.arc(tx, ty, 8, 0, Math.PI*2); ctx.fill();
+        }
+      }
+      ctx.restore();
+    }
+    if (hz.type === 'ob' && hz.pts) {
+      ctx.fillStyle = 'rgba(0,0,0,0.5)';
+      drawPoly(ctx, hz.pts);
+      ctx.save();
+      ctx.strokeStyle = 'rgba(255,255,255,0.4)';
+      ctx.lineWidth = 1; ctx.setLineDash([4,4]);
+      ctx.strokeRect(hz.pts[0][0], hz.pts[0][1], hz.pts[1][0] - hz.pts[0][0], hz.pts[2][1] - hz.pts[0][1]);
+      ctx.setLineDash([]); ctx.restore();
+      ctx.fillStyle = 'rgba(255,255,255,0.3)';
+      ctx.font = 'bold 9px Barlow, sans-serif'; ctx.textAlign = 'center';
+      ctx.fillText('OUT OF BOUNDS', 300, 22);
+    }
+  }
+
+  // Fairway
+  for (const fw of h.fairway) {
+    ctx.fillStyle = '#3a7a28';
+    drawPoly(ctx, fw.pts);
+    // Grain stripes
+    ctx.save();
+    ctx.strokeStyle = 'rgba(255,255,255,0.04)';
+    ctx.lineWidth = 1;
+    const bounds = polyBounds(fw.pts);
+    for (let sy = bounds.minY; sy < bounds.maxY; sy += 8) {
+      ctx.beginPath(); ctx.moveTo(bounds.minX, sy); ctx.lineTo(bounds.maxX, sy); ctx.stroke();
+    }
+    ctx.restore();
+  }
+
+  // Sand bunkers
+  for (const hz of h.hazards) {
+    if (hz.type === 'sand' && hz.cx !== undefined) {
+      ctx.fillStyle = '#d4b060';
+      ctx.beginPath(); ctx.ellipse(hz.cx, hz.cy, hz.rx, hz.ry, 0, 0, Math.PI*2); ctx.fill();
+      ctx.strokeStyle = 'rgba(180,140,60,0.5)'; ctx.lineWidth = 1; ctx.stroke();
+      // Sand texture dots
+      ctx.save();
+      ctx.fillStyle = 'rgba(200,170,80,0.4)';
+      for (let si = 0; si < 6; si++) {
+        const sdx = (Math.random()-0.5) * hz.rx * 1.4;
+        const sdy = (Math.random()-0.5) * hz.ry * 1.4;
+        ctx.beginPath(); ctx.arc(hz.cx + sdx, hz.cy + sdy, 1.5, 0, Math.PI*2); ctx.fill();
+      }
+      ctx.restore();
+    }
+  }
+
+  // Green
+  ctx.fillStyle = '#56c43a';
+  ctx.beginPath();
+  ctx.ellipse(h.green.cx, h.green.cy, h.green.rx, h.green.ry, 0, 0, Math.PI*2);
+  ctx.fill();
+  ctx.strokeStyle = 'rgba(255,255,255,0.2)'; ctx.lineWidth = 1.5; ctx.stroke();
+
+  // Green fringe
+  ctx.strokeStyle = '#4ab030'; ctx.lineWidth = 3;
+  ctx.beginPath();
+  ctx.ellipse(h.green.cx, h.green.cy, h.green.rx + 6, h.green.ry + 6, 0, 0, Math.PI*2);
+  ctx.stroke();
+
+  // Pin
+  ctx.beginPath(); ctx.arc(h.pin.x + 1, h.pin.y + 1, 5, 0, Math.PI*2);
+  ctx.fillStyle = 'rgba(0,0,0,0.3)'; ctx.fill();
+  ctx.beginPath(); ctx.arc(h.pin.x, h.pin.y, 5, 0, Math.PI*2);
+  ctx.fillStyle = '#0a0a0a'; ctx.fill();
+  ctx.strokeStyle = 'rgba(255,255,255,0.4)'; ctx.lineWidth = 1; ctx.stroke();
+  // Flag pole
+  ctx.strokeStyle = '#d0d0d0'; ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.moveTo(h.pin.x, h.pin.y); ctx.lineTo(h.pin.x, h.pin.y - 22); ctx.stroke();
+  // Flag
+  ctx.fillStyle = '#e03a3a';
+  ctx.beginPath();
+  ctx.moveTo(h.pin.x, h.pin.y - 22);
+  ctx.lineTo(h.pin.x + 14, h.pin.y - 16);
+  ctx.lineTo(h.pin.x, h.pin.y - 10);
+  ctx.closePath(); ctx.fill();
+
+  // Tee marker
+  ctx.fillStyle = '#f0c040';
+  ctx.beginPath(); ctx.rect(h.tee.x - 6, h.tee.y - 3, 12, 6); ctx.fill();
+  ctx.fillStyle = '#0a1628'; ctx.font = 'bold 7px Barlow, sans-serif'; ctx.textAlign = 'center';
+  ctx.fillText('TEE', h.tee.x, h.tee.y + 2);
+
+  // Hole info
+  ctx.fillStyle = 'rgba(10,22,40,0.7)';
+  ctx.beginPath(); ctx.roundRect(8, 8, 130, 40, 6); ctx.fill();
+  ctx.fillStyle = '#f0c040'; ctx.font = 'bold 13px Barlow Condensed, sans-serif'; ctx.textAlign = 'left';
+  ctx.fillText(h.name + ' · Par ' + h.par, 15, 24);
+  ctx.fillStyle = '#8a96a8'; ctx.font = '11px Barlow, sans-serif';
+  ctx.fillText(h.yardage + '  ·  Stroke ' + gStroke, 15, 40);
+
+  // Aim line
+  if (gPhase === 'aim' || gPhase === 'power') {
+    ctx.save();
+    ctx.strokeStyle = gPhase === 'power' ? 'rgba(240,192,64,0.7)' : 'rgba(255,255,255,0.35)';
+    ctx.lineWidth = 1.5; ctx.setLineDash([6, 5]);
+    const aimLen = 80;
+    ctx.beginPath();
+    ctx.moveTo(gBall.x, gBall.y);
+    ctx.lineTo(gBall.x + Math.cos(gAimAngle) * aimLen, gBall.y + Math.sin(gAimAngle) * aimLen);
+    ctx.stroke(); ctx.setLineDash([]); ctx.restore();
+  }
+
+  // Ball trail
+  for (let i = 0; i < gBallTrail.length; i++) {
+    const alpha = (i / gBallTrail.length) * 0.5;
+    const r = 2 + (i / gBallTrail.length) * 3;
+    ctx.beginPath(); ctx.arc(gBallTrail[i].x, gBallTrail[i].y, r, 0, Math.PI*2);
+    ctx.fillStyle = `rgba(240,192,64,${alpha})`; ctx.fill();
+  }
+
+  // Ball
+  if (gPhase !== 'holed' || gBallTrail.length === 0) {
+    ctx.beginPath(); ctx.arc(gBall.x + 1, gBall.y + 1, 7, 0, Math.PI*2);
+    ctx.fillStyle = 'rgba(0,0,0,0.3)'; ctx.fill();
+    ctx.beginPath(); ctx.arc(gBall.x, gBall.y, 7, 0, Math.PI*2);
+    ctx.fillStyle = '#f8f8f8'; ctx.fill();
+    ctx.strokeStyle = '#cccccc'; ctx.lineWidth = 1; ctx.stroke();
+    // Dimples
+    for (let i = 0; i < 4; i++) {
+      ctx.beginPath();
+      ctx.arc(gBall.x + Math.cos(i*Math.PI/2)*3, gBall.y + Math.sin(i*Math.PI/2)*3, 1.2, 0, Math.PI*2);
+      ctx.fillStyle = 'rgba(150,150,150,0.4)'; ctx.fill();
+    }
+  }
+
+  // Terrain indicator
+  if (gPhase === 'aim') {
+    const terrain = getBallTerrain();
+    const colors = { green:'#56c43a', fairway:'#3a7a28', sand:'#d4b060', rough:'#1e4010', water:'#4a8af4', ob:'#ff4444' };
+    const labels = { green:'On the Green 🟢', fairway:'Fairway ✅', sand:'Sand Trap ⛱', rough:'Rough 🌿', water:'Water 💧', ob:'OB ⚠️' };
+    if (terrain && labels[terrain]) {
+      ctx.fillStyle = 'rgba(10,22,40,0.75)';
+      ctx.beginPath(); ctx.roundRect(GW - 145, GH - 32, 138, 24, 5); ctx.fill();
+      ctx.fillStyle = colors[terrain] || '#fff';
+      ctx.font = 'bold 11px Barlow, sans-serif'; ctx.textAlign = 'right';
+      ctx.fillText(labels[terrain], GW - 10, GH - 15);
+    }
+  }
+}
+
+function drawGolfFeedback() {
+  const c = document.getElementById('golf-canvas');
+  const ctx = c.getContext('2d');
+  const alpha = Math.min(gFeedbackAlpha, 1);
+  ctx.globalAlpha = alpha;
+  ctx.font = 'bold 22px Barlow Condensed, sans-serif'; ctx.textAlign = 'center';
+  ctx.fillStyle = '#f0c040';
+  ctx.fillText(gFeedbackMsg, gBall.x, gBall.y - 20 - (1.4 - gFeedbackAlpha) * 14);
+  ctx.globalAlpha = 1;
+}
+
+function drawPoly(ctx, pts) {
+  ctx.beginPath();
+  ctx.moveTo(pts[0][0], pts[0][1]);
+  for (let i = 1; i < pts.length; i++) ctx.lineTo(pts[i][0], pts[i][1]);
+  ctx.closePath(); ctx.fill();
+}
+
+function polyBounds(pts) {
+  return {
+    minX: Math.min(...pts.map(p=>p[0])), maxX: Math.max(...pts.map(p=>p[0])),
+    minY: Math.min(...pts.map(p=>p[1])), maxY: Math.max(...pts.map(p=>p[1]))
+  };
+}
+// -- ENTERTAINMENT -------------------------------------------------
+const entVideos = [
+  // NBA
+  { id: 'NlYiOoB9iZk', title: "Jordan's Last Shot -- The Push Off (1998 Finals)",  sport: 'nba', source: 'NBA Classics' },
+  { id: 'pVBSQSuMGpI', title: "Michael Jordan's Best Dunks & Highlights",          sport: 'nba', source: 'NBA' },
+  { id: 'v0P9CIRlBYk', title: "Top 10 Buzzer Beaters in NBA History",              sport: 'nba', source: 'NBA' },
+  { id: 'zD_6NMtFmYo', title: "LeBron James Greatest Plays of All Time",           sport: 'nba', source: 'ESPN' },
+  { id: 'Nf_kQY_Bz1Q', title: "Steph Curry Impossible Shots Compilation",          sport: 'nba', source: 'NBA' },
+  // NFL
+  { id: 'jXBCXnSfCXs', title: "Tom Brady's Greatest Super Bowl Moments",           sport: 'nfl', source: 'NFL' },
+  { id: 'YXdBPNvSzSg', title: "NFL Top 100 Plays of All Time",                     sport: 'nfl', source: 'NFL' },
+  { id: '9BGXS_o_kts', title: "Patrick Mahomes Unbelievable Plays",                sport: 'nfl', source: 'NFL' },
+  // MLB
+  { id: 'nKCxL5oJ8s0', title: "Barry Bonds 73rd Home Run -- Record Breaking Night", sport: 'mlb', source: 'MLB' },
+  { id: 'jYMeVTgtRhg', title: "Greatest Home Runs in MLB History",                 sport: 'mlb', source: 'MLB' },
+  // Soccer
+  { id: 'aOc5t52nHRs', title: "Messi's 2022 World Cup -- Greatest Tournament Ever", sport: 'soccer', source: 'FIFA' },
+  { id: 'HxhNWJFN8eI', title: "Top 50 Goals in Champions League History",          sport: 'soccer', source: 'UEFA' },
+  // Golf
+  { id: 'kYVxFpF0T-k', title: "Tiger Woods Greatest Shots Ever",                   sport: 'golf', source: 'PGA TOUR' },
+  { id: 'UkwhKFHYnuU', title: "Tiger Woods 2019 Masters Comeback Win",              sport: 'golf', source: 'PGA TOUR' },
+];
+
+let entCurrentFilter = 'all';
+let entBuilt = false;
+
+function ensureEntBuilt() {
+  entCurrentFilter = 'all';
+  document.querySelectorAll('#entTabs .sport-tab').forEach(t => t.classList.remove('active'));
+  const firstTab = document.querySelector('#entTabs .sport-tab');
+  if (firstTab) firstTab.classList.add('active');
+  renderEnt();
+}
+
+function filterEnt(sport) {
+  entCurrentFilter = sport;
+  document.querySelectorAll('#entTabs .sport-tab').forEach(t => t.classList.remove('active'));
+  const map = { all:0, nba:1, nfl:2, mlb:3, soccer:4, golf:5 };
+  const tabs = document.querySelectorAll('#entTabs .sport-tab');
+  if (tabs[map[sport]]) tabs[map[sport]].classList.add('active');
+  renderEnt();
+}
+
+function renderEnt() {
+  const grid = document.getElementById('ent-grid');
+  if (!grid) return;
+  const filtered = entCurrentFilter === 'all' ? entVideos : entVideos.filter(v => v.sport === entCurrentFilter);
+  if (!filtered.length) { grid.innerHTML = '<p style="color:var(--gray);">No videos for this sport.</p>'; return; }
+
+  grid.innerHTML = filtered.map(v => `
+    <div class="col-md-6 col-lg-4">
+      <div class="sh-card" style="padding:0; overflow:hidden; cursor:pointer;" onclick="playEntVideo('${v.id}', this)">
+        <!-- Thumbnail -->
+        <div id="et-${v.id}" style="position:relative; padding-bottom:56.25%; background:#0d1e3a;">
+          <img src="https://img.youtube.com/vi/${v.id}/mqdefault.jpg" alt="${v.title}"
+            style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover;"
+            onerror="this.style.opacity='0'">
+          <div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,0.25); transition:background 0.2s;">
+            <i class="bi bi-play-circle-fill" style="font-size:3rem; color:rgba(255,255,255,0.9); filter:drop-shadow(0 2px 6px rgba(0,0,0,0.6));"></i>
+          </div>
+          <div style="position:absolute; top:8px; left:8px; background:rgba(10,22,40,0.85); border:1px solid rgba(240,192,64,0.4); color:var(--gold); font-family:var(--font-display); font-size:0.68rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; padding:3px 8px; border-radius:4px;">${v.source}</div>
+          <div style="position:absolute; top:8px; right:8px; background:rgba(10,22,40,0.85); color:var(--white); font-size:0.75rem; padding:3px 8px; border-radius:4px;">${sportEmoji(v.sport)}</div>
+        </div>
+        <div style="padding:0.9rem 1rem;">
+          <div style="font-family:var(--font-display); font-size:1.05rem; font-weight:700; line-height:1.3; color:var(--white);">${v.title}</div>
+          <div style="font-size:0.75rem; color:var(--gray); margin-top:6px;"><i class="bi bi-youtube" style="color:#ff0000;"></i> YouTube</div>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function sportEmoji(sport) {
+  return { nba:'🏀', nfl:'🏈', mlb:'⚾', soccer:'⚽', golf:'⛳' }[sport] || '🏆';
+}
+
+function playEntVideo(id, card) {
+  const wrap = document.getElementById('et-' + id);
+  if (!wrap) return;
+  wrap.innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1&rel=0"
+    style="position:absolute; inset:0; width:100%; height:100%; border:none;"
+    allowfullscreen allow="autoplay; encrypted-media"></iframe>`;
+}
+
+// Init on load
+renderBracket();
+bracketRendered = true;
+renderScores('all');
+renderSportLegend('all');
+renderNews();
+initPredictorState();
+</script>
+</body>
+</html>

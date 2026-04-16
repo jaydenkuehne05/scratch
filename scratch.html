@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sports – Jayden Kuehne</title>
+<style>
+/* ── RESET & VARIABLES ─────────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0e1c2f; --bg2:#162640; --acc:#f0c040; --acc2:#c89a20;
+  --txt:#f0f4f8; --mut:#8fa0b8; --bdr:rgba(240,192,64,0.2);
+  --card:rgba(255,255,255,0.04); --max:900px;
+  --fh:Georgia,'Times New Roman',serif;
+  --fb:'Trebuchet MS','Segoe UI',Arial,sans-serif;
+}
+
+/* DIV 1 — body */
+body{font-family:var(--fb);background:var(--bg);color:var(--txt);font-size:1rem;line-height:1.7}
+
+/* DIV 2 — sticky nav */
+.nav{background:var(--bg2);border-bottom:2px solid var(--acc);height:52px;display:flex;
+  align-items:center;position:sticky;top:0;z-index:200;overflow-x:auto;padding:0 1rem;gap:0}
+.nav .brand{color:var(--acc);font-weight:700;font-size:1rem;padding-right:1rem;
+  margin-right:.5rem;border-right:1px solid var(--bdr);white-space:nowrap}
+.nav button{background:none;border:none;border-bottom:3px solid transparent;color:var(--mut);
+  font-family:var(--fb);font-size:.83rem;font-weight:600;height:52px;padding:0 .8rem;
+  cursor:pointer;white-space:nowrap;transition:color .2s,border-color .2s}
+.nav button:hover{color:var(--acc)}
+.nav button.on{color:var(--acc);border-bottom-color:var(--acc)}
+.nav a.hub-link{color:var(--acc);font-weight:700;font-size:.83rem;text-decoration:none;
+  height:52px;display:flex;align-items:center;padding:0 .8rem;white-space:nowrap;
+  border-bottom:3px solid transparent}
+.nav a.hub-link:hover{border-bottom-color:var(--acc)}
+
+/* DIV 3 — container */
+.wrap{max-width:var(--max);margin:0 auto}
+
+/* SECTIONS */
+.sec{padding:3rem 1.5rem;border-bottom:1px solid var(--bdr)}
+.sec.alt{background:var(--bg2)}
+.sec-h{font-family:var(--fh);font-size:1.8rem;font-weight:700;color:var(--acc);
+  margin-bottom:1rem;padding-bottom:.5rem;border-bottom:1px solid var(--bdr)}
+.sec-d{color:var(--mut);font-size:.92rem;margin-bottom:1.1rem;max-width:660px}
+
+/* HERO */
+.hero{background:var(--bg2);background-image:radial-gradient(ellipse at top right,rgba(240,192,64,.15) 0%,transparent 60%);
+  padding:3.5rem 1.5rem;text-align:center;border-bottom:1px solid var(--bdr)}
+.hero h1{font-family:var(--fh);font-size:clamp(1.9rem,5vw,3rem);font-weight:700;
+  color:var(--txt);line-height:1.2;margin-bottom:.6rem}
+.hero h1 span{color:var(--acc);font-style:italic}
+.hero p{font-size:1rem;color:var(--mut);max-width:560px;margin:0 auto}
+
+/* TWO-COL */
+.two{display:grid;grid-template-columns:1fr 2fr;gap:2rem;align-items:center}
+.two p{color:var(--mut);margin-bottom:.7rem}
+@media(max-width:600px){.two{grid-template-columns:1fr}}
+
+/* IMAGE */
+.simg{width:100%;max-width:190px;border-radius:12px;border:2px solid var(--acc);display:block;margin:0 auto}
+
+/* LISTS */
+.ol{list-style:decimal;padding-left:1.4rem;color:var(--txt)}
+.ol>li{margin-bottom:1.2rem;font-weight:600}
+.ol>li strong{color:var(--acc)}
+.ul{list-style:disc;padding-left:1.3rem;margin-top:.4rem;font-weight:400;font-size:.88rem}
+.ul li{color:var(--mut);margin-bottom:.2rem}
+
+/* VIDEO */
+.vid{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;
+  border-radius:12px;border:2px solid var(--bdr)}
+.vid iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none}
+.cap{font-size:.82rem;color:var(--mut);font-style:italic;margin-top:.6rem;text-align:center}
+
+/* BUTTONS */
+.btn{display:inline-block;background:var(--acc);color:#0e1c2f;font-family:var(--fb);
+  font-weight:700;font-size:.9rem;padding:.65rem 1.6rem;border-radius:8px;
+  text-decoration:none;margin:.3rem .4rem 0 0;border:2px solid var(--acc);cursor:pointer;
+  transition:background .2s,transform .1s}
+.btn:hover{background:var(--acc2);transform:translateY(-2px)}
+.btn-o{background:transparent;color:var(--acc)}
+.btn-o:hover{background:var(--acc);color:#0e1c2f}
+
+/* SCORES */
+.score-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem;margin-top:1rem}
+.score-card{background:var(--card);border:1px solid var(--bdr);border-radius:10px;padding:.9rem 1.1rem}
+.score-sport{font-size:.65rem;text-transform:uppercase;letter-spacing:2px;color:var(--mut);margin-bottom:.3rem}
+.score-teams{display:flex;justify-content:space-between;align-items:center;gap:.5rem;margin-bottom:.3rem}
+.score-team{font-family:var(--fh);font-size:1rem;font-weight:700}
+.score-num{font-family:var(--fh);font-size:1.4rem;font-weight:900;color:var(--acc)}
+.score-status{font-size:.72rem;color:var(--mut);text-align:center}
+.live-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#e03a3a;
+  margin-right:4px;animation:pulse 1.2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* VIDEO CARDS */
+.vid-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1rem;margin-top:1rem}
+.vid-card{background:var(--card);border:1px solid var(--bdr);border-radius:10px;overflow:hidden;
+  cursor:pointer;text-decoration:none;display:block;transition:border-color .2s}
+.vid-card:hover{border-color:var(--acc)}
+.vid-thumb{position:relative;padding-bottom:56.25%;background:#0d1e3a;overflow:hidden}
+.vid-thumb img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover}
+.vid-play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  background:rgba(0,0,0,.3)}
+.vid-play span{font-size:2.5rem;filter:drop-shadow(0 2px 6px rgba(0,0,0,.6))}
+.vid-info{padding:.7rem .9rem}
+.vid-title{font-weight:700;font-size:.9rem;color:var(--txt);line-height:1.3;margin-bottom:.3rem}
+.vid-src{font-size:.72rem;color:var(--mut)}
+
+/* SPORT LEGENDS */
+.legend-card{margin:1.5rem 0;border-radius:14px;display:flex;align-items:stretch;
+  overflow:hidden;min-height:180px;border:1px solid var(--bdr)}
+.legend-art{width:150px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:#0d1e3a}
+.legend-info{flex:1;padding:1.1rem 1.3rem;display:flex;flex-direction:column;justify-content:center;gap:.4rem}
+.legend-name{font-family:var(--fh);font-size:1.8rem;font-weight:700;line-height:1;color:var(--txt)}
+.legend-tag{font-size:.72rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-top:2px}
+.legend-stats{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.2rem}
+.legend-stat{font-size:.68rem;font-weight:700;color:var(--txt);background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.12);padding:2px 7px;border-radius:4px;white-space:nowrap}
+.legend-q{font-size:.78rem;color:var(--mut);font-style:italic;line-height:1.5;margin-top:.2rem;max-width:480px}
+
+/* RÉSUMÉ */
+.rb{margin-bottom:1.7rem;padding-bottom:1.4rem;border-bottom:1px solid var(--bdr)}
+.rb:last-of-type{border-bottom:none}
+.rh{font-family:var(--fh);font-size:1.15rem;font-weight:700;color:var(--acc);margin-bottom:.7rem}
+.ri{margin-bottom:.9rem}
+.rr{font-weight:700;color:var(--txt);margin-bottom:2px}
+.rm{font-size:.8rem;color:var(--acc);margin-bottom:.35rem}
+
+/* GAME */
+.gw{display:flex;flex-direction:column;align-items:center;gap:.75rem;padding:1rem}
+.gs{display:flex;gap:1rem}
+.gb{background:var(--card);border:1px solid var(--bdr);border-radius:8px;padding:.5rem 1rem;text-align:center;min-width:64px}
+.gv{font-family:var(--fh);font-size:1.7rem;font-weight:700;color:var(--acc);line-height:1}
+.gl{font-size:.6rem;text-transform:uppercase;letter-spacing:1px;color:var(--mut);margin-top:2px}
+#gc{border:2px solid rgba(255,255,255,.1);border-radius:10px;cursor:pointer;max-width:100%;display:block}
+#gm{font-family:var(--fh);font-size:1.1rem;font-weight:700;color:var(--acc);letter-spacing:2px;min-height:1.6rem;text-align:center}
+.pw{width:600px;max-width:100%}
+.pl{font-size:.7rem;color:var(--mut);letter-spacing:1px;text-transform:uppercase;margin-bottom:3px}
+.pt{position:relative;height:18px;background:rgba(0,0,0,.5);border-radius:5px;overflow:hidden}
+.pg2{position:absolute;left:35%;width:30%;height:100%;background:rgba(60,200,80,.7)}
+.pb{position:absolute;top:0;left:50%;width:5px;height:100%;background:#fff;border-radius:3px}
+
+/* FOOTER */
+.foot{background:var(--bg2);border-top:1px solid var(--bdr);text-align:center;
+  padding:1.1rem;font-size:.82rem;color:var(--mut)}
+
+/* TABS */
+.pg{display:none}
+.pg.on{display:block}
+
+/* SPORT FILTER */
+.sf{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1rem}
+.sf button{background:var(--card);border:1px solid var(--bdr);color:var(--mut);
+  font-family:var(--fb);font-size:.8rem;padding:.35rem .8rem;border-radius:20px;cursor:pointer;transition:all .2s}
+.sf button.on{background:var(--acc);color:#0e1c2f;border-color:var(--acc);font-weight:700}
+</style>
+</head>
+<body>
+
+<!-- ══ NAV ═══════════════════════════════════════════════════ -->
+<nav class="nav">
+  <span class="brand">⚡ Jayden Kuehne</span>
+  <button id="tb-about"   onclick="go('about')"   class="on" >About</button>
+  <button id="tb-sports"  onclick="go('sports')"             >My Sports</button>
+  <button id="tb-scores"  onclick="go('scores')"             >Scores</button>
+  <button id="tb-ent"     onclick="go('ent')"                >Entertainment</button>
+  <button id="tb-video"   onclick="go('video')"              >Video</button>
+  <button id="tb-tableau" onclick="go('tableau')"            >Data Viz</button>
+  <button id="tb-game"    onclick="go('game')"               >🏀 3PT Game</button>
+  <button id="tb-resume"  onclick="go('resume')"             >Résumé</button>
+  <a href="index.html" class="hub-link">Sports Hub ↗</a>
+</nav>
+
+<!-- ══ ABOUT ══════════════════════════════════════════════════ -->
+<div id="pg-about" class="pg on">
+  <div class="hero"><h1>Sports Are <span>Everything</span></h1>
+    <p>Growing up, if I wasn't in school I was outside with a ball. That never really changed.</p></div>
+  <section class="sec">
+    <div class="wrap">
+      <h2 class="sec-h">Why I Built This Site</h2>
+      <div class="two">
+        <div><!-- External image — rubric requirement -->
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Basketball.png/600px-Basketball.png"
+               alt="Basketball" class="simg"></div>
+        <div>
+          <p>Growing up, all I did was play sports. Basketball in the driveway, football in the backyard, baseball at the park — didn't matter what, as long as there was a ball and competition. There's nothing like being outside with your friends, keeping score, and trying to win.</p>
+          <p>That love never went away. Now when I'm bored I'm either on ESPN refreshing scores, or scrolling Instagram — it's already full of highlights, trade rumors, and clips. Sports take over your whole feed and I'm fine with that.</p>
+          <p>So I built <strong>Sports Hub</strong> — play games, make brackets, see stats, watch highlights, check scores. Everything a sports fan wants. Click <strong>Sports Hub ↗</strong> in the nav to go there.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ══ MY SPORTS ══════════════════════════════════════════════ -->
+<div id="pg-sports" class="pg">
+  <div class="hero"><h1>The Sports I <span>Follow</span></h1>
+    <p>Grew up playing and watching all of these.</p></div>
+  <section class="sec alt">
+    <div class="wrap">
+      <h2 class="sec-h">All-Time Greats — By Sport</h2>
+      <!-- Ordered list with embedded unordered lists — rubric requirement -->
+      <ol class="ol">
+        <li><strong>Basketball</strong> — The most watchable sport on the planet
+          <ul class="ul">
+            <li>Grew up playing pickup every day after school</li>
+            <li>Nothing beats a clutch buzzer-beater in the NBA Finals</li>
+            <li>Michael Jordan is the greatest athlete of all time — not up for debate</li>
+          </ul></li>
+        <li><strong>Football</strong> — Sundays are sacred
+          <ul class="ul">
+            <li>Fantasy football makes every game must-watch</li>
+            <li>The Super Bowl is the biggest sporting event in America</li>
+            <li>Tom Brady proved you can win at any age if you outwork everyone</li>
+          </ul></li>
+        <li><strong>Baseball</strong> — Slower, but deeply satisfying
+          <ul class="ul">
+            <li>Played Little League and learned the grind of a long season</li>
+            <li>Barry Bonds with 762 career home runs will never be topped</li>
+          </ul></li>
+        <li><strong>Golf</strong> — The hardest sport to actually be good at
+          <ul class="ul">
+            <li>Worked at a golf course and fell in love with the game</li>
+            <li>Tiger Woods made an entire generation pick up a club</li>
+          </ul></li>
+        <li><strong>Soccer</strong> — The world's game
+          <ul class="ul">
+            <li>The World Cup is unmatched in global scale and passion</li>
+            <li>Messi's 2022 run in Qatar was the greatest individual tournament ever</li>
+          </ul></li>
+      </ol>
+    </div>
+  </section>
+</div>
+
+<!-- ══ SCORES ═════════════════════════════════════════════════ -->
+<div id="pg-scores" class="pg">
+  <div class="hero"><h1>Live <span>Scores</span></h1>
+    <p>Latest scores across all major sports. Click a sport tab to filter.</p></div>
+  <section class="sec">
+    <div class="wrap">
+      <h2 class="sec-h">Today's Games</h2>
+      <div class="sf" id="score-tabs">
+        <button class="on" onclick="filterScores('all',this)">All</button>
+        <button onclick="filterScores('nba',this)">🏀 NBA</button>
+        <button onclick="filterScores('nfl',this)">🏈 NFL</button>
+        <button onclick="filterScores('mlb',this)">⚾ MLB</button>
+        <button onclick="filterScores('soccer',this)">⚽ Soccer</button>
+        <button onclick="filterScores('golf',this)">⛳ Golf</button>
+      </div>
+      <div class="score-grid" id="score-grid"></div>
+
+      <!-- ATHLETE LEGEND (SVG — guaranteed to render) -->
+      <div id="legend-area"></div>
+    </div>
+  </section>
+</div>
+
+<!-- ══ ENTERTAINMENT ══════════════════════════════════════════ -->
+<div id="pg-ent" class="pg">
+  <div class="hero"><h1>Sports <span>Highlights</span></h1>
+    <p>Click any card to watch on YouTube.</p></div>
+  <section class="sec">
+    <div class="wrap">
+      <div class="sf" id="ent-tabs">
+        <button class="on" onclick="filterEnt('all',this)">All</button>
+        <button onclick="filterEnt('nba',this)">🏀 NBA</button>
+        <button onclick="filterEnt('nfl',this)">🏈 NFL</button>
+        <button onclick="filterEnt('mlb',this)">⚾ MLB</button>
+        <button onclick="filterEnt('soccer',this)">⚽ Soccer</button>
+        <button onclick="filterEnt('golf',this)">⛳ Golf</button>
+      </div>
+      <div class="vid-grid" id="ent-grid"></div>
+    </div>
+  </section>
+</div>
+
+<!-- ══ VIDEO ══════════════════════════════════════════════════ -->
+<div id="pg-video" class="pg">
+  <section class="sec">
+    <div class="wrap">
+      <h2 class="sec-h" id="video">The Last Shot — Did He Push Off?</h2>
+      <p class="sec-d">Game 6, 1998 NBA Finals. Bulls down one. 18 seconds left. Jordan steals, crosses over Bryon Russell (with a little help…), and drains the title-winner.</p>
+      <!-- Embedded YouTube video — rubric requirement -->
+      <div class="vid">
+        <iframe src="https://www.youtube.com/embed/NlYiOoB9iZk"
+          title="Michael Jordan Last Shot 1998 NBA Finals" frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen></iframe>
+      </div>
+      <p class="cap">"Everybody says I pushed off. Bullsh*t." — Michael Jordan, <em>The Last Dance</em> (2020)</p>
+    </div>
+  </section>
+</div>
+
+<!-- ══ TABLEAU ════════════════════════════════════════════════ -->
+<div id="pg-tableau" class="pg">
+  <section class="sec alt">
+    <div class="wrap">
+      <h2 class="sec-h" id="tableau">NBA Data Visualization</h2>
+      <p class="sec-d">Live interactive Tableau dashboard from Tableau Public — explore NBA player stats across seasons:</p>
+      <!-- Live Tableau embed — rubric requirement -->
+      <div style="margin:1.2rem 0;min-height:520px">
+        <script type="module" src="https://public.tableau.com/javascripts/api/tableau.embedding.3.latest.min.js"></script>
+        <tableau-viz id="tableauViz"
+          src="https://public.tableau.com/views/VisualizingNBAStatistics/NBASeasonStatsDashboard"
+          width="100%" height="520" hide-tabs toolbar="bottom"></tableau-viz>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ══ 3PT GAME — AI web app, single page (rubric requirement) -->
+<div id="pg-game" class="pg">
+  <div style="padding:.8rem 1.5rem;background:var(--bg2);border-bottom:1px solid var(--bdr)">
+    <h2 style="font-family:var(--fh);font-size:1.3rem;color:var(--acc);margin-bottom:.2rem">🏀 3-Point Contest</h2>
+    <p style="color:var(--mut);font-size:.84rem">
+      <span style="color:var(--acc);font-weight:700">1st click</span> = aim ↔ &nbsp;·&nbsp;
+      <span style="color:var(--acc);font-weight:700">2nd click</span> = power ↕ &nbsp;·&nbsp;
+      <span style="color:#3cdc60">Green zone</span> shrinks with distance &nbsp;·&nbsp;
+      Every 3rd shot = 🟢 <strong style="color:var(--txt)">Money Ball +4</strong>
+    </p>
+  </div>
+  <div class="gw">
+    <div class="gs">
+      <div class="gb"><div class="gv" id="g-score">0</div><div class="gl">Points</div></div>
+      <div class="gb"><div class="gv" id="g-makes">0</div><div class="gl">Makes</div></div>
+      <div class="gb"><div class="gv" id="g-shot">1</div><div class="gl">Shot</div></div>
+      <div class="gb"><div class="gv" id="g-pos">1</div><div class="gl">Position</div></div>
+    </div>
+    <canvas id="gc" width="600" height="460"></canvas>
+    <div class="pw" id="pw" style="display:none">
+      <div class="pl">⚡ Power — click to swing!</div>
+      <div class="pt"><div class="pg2"></div><div class="pb" id="pb"></div></div>
+    </div>
+    <div id="gm"></div>
+    <button class="btn" id="gbtn" onclick="startGame()">Start Game</button>
+  </div>
+</div>
+
+<!-- ══ RÉSUMÉ ═════════════════════════════════════════════════ -->
+<div id="pg-resume" class="pg">
+  <div class="hero" style="padding:2.5rem 1.5rem">
+    <h1>Résumé — <span>Jayden Kuehne</span></h1>
+    <p>Pre-Business · Finance &amp; Accounting · BYU · GPA 3.82</p>
+  </div>
+  <section class="sec" id="resume">
+    <div class="wrap">
+      <div class="rb">
+        <h3 class="rh">🎓 Education</h3>
+        <div class="ri">
+          <div class="rr">Brigham Young University — Pre-Business, Finance &amp; Accounting</div>
+          <div class="rm">Provo, UT · Expected April 2029 · GPA: 3.82 / 4.00</div>
+          <ul class="ul"><li>Dean's List — multiple semesters</li><li>Microsoft Office Specialist certified</li></ul>
+        </div>
+      </div>
+      <div class="rb">
+        <h3 class="rh">💼 Work Experience</h3>
+        <div class="ri">
+          <div class="rr">Accounting Intern — Swig</div>
+          <div class="rm">Sandy, UT · November 2025 – Present</div>
+          <ul class="ul">
+            <li>Processes accounts payable, journal entries, and month-end close procedures</li>
+            <li>Builds P&amp;L reports using Excel X-lookups and NetSuite ERP</li>
+            <li>Assists with financial reporting for 50+ retail locations</li>
+          </ul>
+        </div>
+        <div class="ri">
+          <div class="rr">Yard Worker — Mollerup Glass</div>
+          <div class="rm">North Salt Lake, UT · April – August 2023</div>
+          <ul class="ul"><li>Managed glass inventory and coordinated material handling</li></ul>
+        </div>
+        <div class="ri">
+          <div class="rr">Groundskeeper — Bountiful Ridge Golf Course</div>
+          <div class="rm">Bountiful, UT · 2022 – 2023</div>
+          <ul class="ul"><li>Maintained fairways, greens, and cart paths for 18-hole public course</li></ul>
+        </div>
+      </div>
+      <div class="rb">
+        <h3 class="rh">🌐 Leadership &amp; Service</h3>
+        <div class="ri">
+          <div class="rr">Full-Time Volunteer — The Church of Jesus Christ of Latter-day Saints</div>
+          <div class="rm">Indianapolis, IN · August 2023 – August 2025</div>
+          <ul class="ul">
+            <li>Led and coordinated a team of 10–12 volunteers</li>
+            <li>Facilitated training workshops and resolved team conflicts</li>
+            <li>Developed public speaking and cross-cultural communication skills</li>
+          </ul>
+        </div>
+      </div>
+      <div class="rb">
+        <h3 class="rh">🛠 Skills</h3>
+        <ul class="ul" style="columns:2;gap:2rem">
+          <li>Microsoft Office Certified</li>
+          <li>Excel: X-lookups, pivot tables, P&amp;L</li>
+          <li>NetSuite ERP</li>
+          <li>Journal entries &amp; month-end close</li>
+          <li>Team leadership</li>
+          <li>Public speaking</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</div>
+
+<footer class="foot">Jayden Kuehne · Sports Passion Page · Built from scratch · No Bootstrap</footer>
+
+<script>
+/* ══ TAB NAVIGATION ═════════════════════════════════════════ */
+function go(id){
+  document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('on'));
+  document.getElementById('pg-'+id).classList.add('on');
+  const tb=document.getElementById('tb-'+id);
+  if(tb) tb.classList.add('on');
+  window.scrollTo(0,0);
+  if(id==='game'&&!gameReady) initGame();
+  if(id==='scores') buildScores('all');
+  if(id==='ent') buildEnt('all');
+}
+
+/* ══ SCORES DATA ════════════════════════════════════════════ */
+const SCORES=[
+  {sport:'nba',home:'Lakers',away:'Celtics',hs:108,as:112,status:'final'},
+  {sport:'nba',home:'Warriors',away:'Nuggets',hs:94,as:87,status:'live',period:'Q3 8:24'},
+  {sport:'nba',home:'Bucks',away:'Heat',hs:0,as:0,status:'sched',period:'7:30 PM ET'},
+  {sport:'nfl',home:'Chiefs',away:'Eagles',hs:24,as:17,status:'final'},
+  {sport:'nfl',home:'Cowboys',away:'49ers',hs:0,as:0,status:'sched',period:'Sun 4:25 PM'},
+  {sport:'mlb',home:'Yankees',away:'Red Sox',hs:7,as:4,status:'final'},
+  {sport:'mlb',home:'Dodgers',away:'Braves',hs:3,as:5,status:'live',period:'Bot 7th'},
+  {sport:'soccer',home:'Man City',away:'Arsenal',hs:2,as:2,status:'live',period:"72'"},
+  {sport:'soccer',home:'Liverpool',away:'Chelsea',hs:1,as:0,status:'final'},
+  {sport:'golf',home:'Masters Tournament',away:'',hs:null,as:null,status:'live',period:'Rnd 3',leader:'Scottie Scheffler -14'},
+];
+
+function filterScores(sport,btn){
+  document.querySelectorAll('#score-tabs button').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  buildScores(sport);
+}
+
+function buildScores(sport){
+  const data=sport==='all'?SCORES:SCORES.filter(g=>g.sport===sport);
+  const grid=document.getElementById('score-grid');
+  grid.innerHTML=data.map(g=>{
+    const live=g.status==='live';
+    const statusHtml=live?`<span class="live-dot"></span>LIVE ${g.period||''}`
+      :g.status==='sched'?`🕐 ${g.period||'Scheduled'}`:'Final';
+    if(g.sport==='golf') return `<div class="score-card">
+      <div class="score-sport">⛳ GOLF</div>
+      <div style="font-family:var(--fh);font-weight:700;margin-bottom:.3rem">${g.home}</div>
+      <div style="font-size:.85rem;color:var(--acc)">${g.leader||''}</div>
+      <div class="score-status" style="margin-top:.4rem">${statusHtml}</div></div>`;
+    return `<div class="score-card">
+      <div class="score-sport">${{nba:'🏀 NBA',nfl:'🏈 NFL',mlb:'⚾ MLB',soccer:'⚽ SOCCER'}[g.sport]||g.sport.toUpperCase()}</div>
+      <div class="score-teams">
+        <span class="score-team">${g.away}</span>
+        <span class="score-num">${g.status!=='sched'?g.as:'–'}</span>
+      </div>
+      <div class="score-teams">
+        <span class="score-team">${g.home}</span>
+        <span class="score-num">${g.status!=='sched'?g.hs:'–'}</span>
+      </div>
+      <div class="score-status">${statusHtml}</div></div>`;
+  }).join('');
+
+  // Show athlete legend for specific sport
+  buildLegend(sport);
+}
+
+/* ══ ATHLETE LEGENDS — real photos via wsrv.nl proxy ═══════ */
+const LEGENDS={
+  nba:{name:'Michael Jordan',era:'1984–2003',tag:'THE GOAT',acc:'#e03a3a',
+    stats:['6× Champ','6× Finals MVP','5× MVP','30.1 PPG'],
+    quote:'"Talent wins games, but teamwork wins championships."',
+    img:'jordan.jpg', wiki:'Michael_Jordan'},
+  nfl:{name:'Tom Brady',era:'2000–2023',tag:'MR. 7 RINGS',acc:'#004c97',
+    stats:['7× Super Bowl','5× SB MVP','3× League MVP','89,214 Yds'],
+    quote:'"Do you know what my favorite part of the game is? The opportunity to play."',
+    img:'brady.jpg', wiki:'Tom_Brady'},
+  mlb:{name:'Barry Bonds',era:'1986–2007',tag:'HOME RUN KING',acc:'#003087',
+    stats:['762 HR','7× NL MVP','8× Gold Glove','.298 AVG'],
+    quote:'"If you can believe it, the mind can achieve it."',
+    img:'bonds.jpg', wiki:'Barry_Bonds'},
+  soccer:{name:'Lionel Messi',era:'2004–Present',tag:"8× BALLON D'OR",acc:'#74acdf',
+    stats:["8× Ballon d'Or",'2022 WC Champ','700+ Goals','La Liga GOAT'],
+    quote:'"I start early and stay late, day after day, year after year."',
+    img:'messi.jpg', wiki:'Lionel_Messi'},
+  golf:{name:'Tiger Woods',era:'1996–Present',tag:'15× MAJOR CHAMP',acc:'#cc0000',
+    stats:['15× Majors','82 PGA Wins','683 Wks #1','4× Masters'],
+    quote:'"No matter how good you get, you can always get better."',
+    img:'tiger.jpg', wiki:'Tiger_Woods'}
+};
+
+const _wikiCache={};
+
+async function buildLegend(sport){
+  const el=document.getElementById('legend-area');
+  const l=LEGENDS[sport];
+  if(!l){el.innerHTML='';return;}
+
+  const sportLabel={nba:'🏀 NBA',nfl:'🏈 NFL',mlb:'⚾ MLB',soccer:'⚽ Soccer',golf:'⛳ Golf'}[sport];
+
+  function cardHTML(imgSrc){
+    return `<div class="legend-card" style="background:linear-gradient(135deg,${l.acc}20,var(--bg2));border-color:${l.acc}55;margin-top:1.5rem">
+      <div style="width:4px;background:${l.acc};flex-shrink:0"></div>
+      <div class="legend-art" style="overflow:hidden;padding:0">
+        <img src="${imgSrc}" alt="${l.name}"
+          style="width:150px;height:190px;object-fit:cover;object-position:top center;display:block;"
+          onerror="tryWikiImg(this,'${sport}')">
+      </div>
+      <div class="legend-info">
+        <div style="display:flex;align-items:center;gap:.5rem;flex-wrap:wrap">
+          <span style="font-size:.65rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:${l.acc};background:${l.acc}25;padding:2px 9px;border-radius:20px;border:1px solid ${l.acc}55">${sportLabel}</span>
+          <span style="font-size:.65rem;color:var(--mut)">${l.era}</span>
+        </div>
+        <div class="legend-name">${l.name}</div>
+        <div class="legend-tag" style="color:${l.acc}">${l.tag}</div>
+        <div class="legend-stats">${l.stats.map(s=>`<span class="legend-stat">${s}</span>`).join('')}</div>
+        <div class="legend-q">${l.quote}</div>
+      </div>
+    </div>`;
+  }
+
+  el.innerHTML = cardHTML(l.img);
+}
+
+async function tryWikiImg(imgEl, sport){
+  // Called when local image fails — fetch from Wikipedia API
+  const l = LEGENDS[sport];
+  if (!l) return;
+  if (_wikiCache[sport]) { imgEl.src = _wikiCache[sport]; return; }
+  try {
+    const res = await fetch(`https://en.wikipedia.org/w/api.php?action=query&titles=${l.wiki}&prop=pageimages&piprop=thumbnail&pithumbsize=400&format=json&origin=*`);
+    const data = await res.json();
+    const pages = data.query.pages;
+    const url = pages[Object.keys(pages)[0]]?.thumbnail?.source;
+    if (url) { _wikiCache[sport] = url; imgEl.src = url; imgEl.style.display = 'block'; }
+  } catch(e) { imgEl.style.display = 'none'; }
+}
+/* ══ ENTERTAINMENT DATA ══════════════════════════════════════ */
+const VIDS=[
+  {id:'NlYiOoB9iZk',title:"Jordan's Last Shot — The Push Off (1998 Finals)",sport:'nba',src:'NBA'},
+  {id:'pVBSQSuMGpI',title:"Michael Jordan's Best Dunks & Highlights",sport:'nba',src:'NBA'},
+  {id:'v0P9CIRlBYk',title:"Top 10 Buzzer Beaters in NBA History",sport:'nba',src:'NBA'},
+  {id:'jXBCXnSfCXs',title:"Tom Brady's Greatest Super Bowl Moments",sport:'nfl',src:'NFL'},
+  {id:'YXdBPNvSzSg',title:"NFL Top 100 Plays of All Time",sport:'nfl',src:'NFL'},
+  {id:'9BGXS_o_kts',title:"Patrick Mahomes Unbelievable Plays",sport:'nfl',src:'NFL'},
+  {id:'nKCxL5oJ8s0',title:"Barry Bonds 73rd Home Run — Record Breaking",sport:'mlb',src:'MLB'},
+  {id:'jYMeVTgtRhg',title:"Greatest Home Runs in MLB History",sport:'mlb',src:'MLB'},
+  {id:'aOc5t52nHRs',title:"Messi's 2022 World Cup — Greatest Tournament Ever",sport:'soccer',src:'FIFA'},
+  {id:'HxhNWJFN8eI',title:"Top 50 Goals in Champions League History",sport:'soccer',src:'UEFA'},
+  {id:'kYVxFpF0T-k',title:"Tiger Woods Greatest Shots Ever",sport:'golf',src:'PGA'},
+  {id:'UkwhKFHYnuU',title:"Tiger Woods 2019 Masters Comeback",sport:'golf',src:'PGA'},
+];
+
+function filterEnt(sport,btn){
+  document.querySelectorAll('#ent-tabs button').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  buildEnt(sport);
+}
+
+function buildEnt(sport){
+  const data=sport==='all'?VIDS:VIDS.filter(v=>v.sport===sport);
+  const emo={nba:'🏀',nfl:'🏈',mlb:'⚾',soccer:'⚽',golf:'⛳'};
+  document.getElementById('ent-grid').innerHTML=data.map(v=>`
+    <a class="vid-card" href="https://www.youtube.com/watch?v=${v.id}" target="_blank" rel="noopener">
+      <div class="vid-thumb">
+        <img src="https://img.youtube.com/vi/${v.id}/mqdefault.jpg" alt="${v.title}" loading="lazy"
+          onerror="this.style.display='none'">
+        <div class="vid-play"><span>▶️</span></div>
+      </div>
+      <div class="vid-info">
+        <div class="vid-title">${v.title}</div>
+        <div class="vid-src">${emo[v.sport]||''} ${v.src} · YouTube ↗</div>
+      </div>
+    </a>`).join('');
+}
+
+/* ══ 3PT GAME ════════════════════════════════════════════════ */
+let gameRunning=false,gameReady=false;
+let gScore=0,gMakes=0,gShotNum=0,gPosNum=0,shotsPos=0;
+let gPhase='idle';
+let aVal=0,aDir=1,aLock=50;
+let pVal=0,pDir=1;
+let bx=0,by=0,btx=0,bty=0,bp=0;
+let sMade=false,sMoney=false;
+let fbMsg='',fbA=0,animId=null;
+
+const POS=[{x:60,y:300,label:'Left Corner'},{x:150,y:180,label:'Left Wing'},
+  {x:300,y:140,label:'Top of Arc'},{x:450,y:180,label:'Right Wing'},{x:540,y:300,label:'Right Corner'}];
+const BX=300,BY=80;
+function pd(p){return Math.hypot(p.x-BX,p.y-BY)}
+const DmN=Math.min(...POS.map(pd)),DmX=Math.max(...POS.map(pd));
+function gz(){const t=(pd(POS[gPosNum]||POS[0])-DmN)/(DmX-DmN),h=12-t*7;return{lo:50-h,hi:50+h}}
+function isMB(){return(gShotNum%3)===2}
+
+function initGame(){
+  gameReady=true;
+  const c=document.getElementById('gc');
+  c.addEventListener('click',onGC);
+  window.addEventListener('keydown',e=>{if(e.code==='Space'&&gameRunning){e.preventDefault();onGC()}});
+  drawCourt();
+}
+
+function startGame(){
+  gScore=gMakes=gShotNum=gPosNum=shotsPos=0;
+  aVal=0;aDir=1;aLock=50;pVal=0;pDir=1;fbMsg='';fbA=0;sMade=sMoney=false;
+  gameRunning=true;gPhase='aim';
+  document.getElementById('gbtn').style.display='none';
+  document.getElementById('pw').style.display='none';
+  document.getElementById('gm').textContent='CLICK to lock AIM ↔';
+  updG();if(animId)cancelAnimationFrame(animId);loop();
+}
+
+function loop(){
+  if(!gameRunning)return;
+  if(gPhase==='aim'){aVal+=aDir*2.6;if(aVal>=100||aVal<=0)aDir*=-1}
+  if(gPhase==='power'){
+    pVal+=pDir*2.2;if(pVal>=100||pVal<=0)pDir*=-1;
+    const b=document.getElementById('pb');if(b)b.style.left=pVal+'%';
+  }
+  if(gPhase==='flight'){
+    bp+=0.038;
+    if(bp>=1){
+      bp=1;gPhase='aim';aVal=0;aDir=1;aLock=50;pVal=0;pDir=1;
+      fbMsg=sMade?(sMoney?'🟢 MONEY! +4':'SWISH! +3'):'MISS!';
+      fbA=1.6;
+      if(sMade){gScore+=sMoney?4:3;gMakes++}
+      gShotNum++;shotsPos++;updG();chkAdv();
+      if(gameRunning){document.getElementById('gm').textContent='CLICK to lock AIM ↔';document.getElementById('pw').style.display='none'}
+    }
+  }
+  if(fbA>0)fbA-=0.022;
+  render();animId=requestAnimationFrame(loop);
+}
+
+function drawCourt(){
+  const ctx=document.getElementById('gc').getContext('2d');
+  ctx.fillStyle='#0d1e3a';ctx.fillRect(0,0,600,460);
+  ctx.fillStyle='#c8852a';ctx.fillRect(30,60,540,320);
+  ctx.strokeStyle='rgba(255,255,255,0.5)';ctx.lineWidth=2;ctx.strokeRect(30,60,540,320);
+  ctx.strokeStyle='rgba(255,255,255,0.4)';ctx.lineWidth=1.5;ctx.strokeRect(225,60,150,140);
+  ctx.beginPath();ctx.arc(BX,60,220,0,Math.PI,false);ctx.strokeStyle='rgba(255,255,255,0.5)';ctx.lineWidth=2;ctx.stroke();
+  ctx.beginPath();ctx.arc(BX,200,60,0,Math.PI*2);ctx.strokeStyle='rgba(255,255,255,0.3)';ctx.lineWidth=1;ctx.stroke();
+  ctx.fillStyle='#ff6600';ctx.beginPath();ctx.arc(BX,BY,14,0,Math.PI*2);ctx.fill();
+  ctx.strokeStyle='#ff4400';ctx.lineWidth=3;ctx.stroke();
+  ctx.fillStyle='#fff';ctx.fillRect(BX-30,BY-20,60,6);
+}
+
+function render(){
+  const ctx=document.getElementById('gc').getContext('2d');
+  drawCourt();
+  // Positions
+  POS.forEach((p,i)=>{
+    const a=i===gPosNum&&gameRunning;
+    ctx.beginPath();ctx.arc(p.x,p.y,a?16:10,0,Math.PI*2);
+    ctx.fillStyle=a?'rgba(240,192,64,0.9)':'rgba(240,192,64,0.3)';ctx.fill();
+    ctx.strokeStyle='#f0c040';ctx.lineWidth=2;ctx.stroke();
+    if(a){ctx.fillStyle='#0a1628';ctx.font='bold 12px sans-serif';ctx.textAlign='center';ctx.fillText(i+1,p.x,p.y+4)}
+  });
+  // Aim line
+  if(gPhase==='power'||gPhase==='flight'){
+    const p=POS[gPosNum],g=gz(),tx=BX+((aLock-50)/50)*130;
+    ctx.save();ctx.setLineDash([6,5]);
+    ctx.strokeStyle=(aLock>=g.lo&&aLock<=g.hi)?'rgba(60,200,80,0.65)':'rgba(240,192,64,0.5)';
+    ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(tx,BY);ctx.stroke();
+    ctx.setLineDash([]);ctx.restore();
+  }
+  // Aim bar
+  if(gameRunning&&gPhase!=='flight'){
+    const g=gz(),mb=isMB(),bc=mb?'rgba(40,180,80,0.85)':'rgba(60,200,80,0.8)';
+    const ax=30,ay=408,aw=530,ah=18,aa=gPhase==='aim';
+    ctx.fillStyle=aa?'rgba(0,0,0,0.6)':'rgba(0,0,0,0.25)';
+    ctx.beginPath();ctx.roundRect(ax,ay,aw,ah,8);ctx.fill();
+    ctx.fillStyle=aa?bc:(mb?'rgba(40,180,80,0.35)':'rgba(60,200,80,0.3)');
+    ctx.beginPath();ctx.roundRect(ax+aw*(g.lo/100),ay,aw*((g.hi-g.lo)/100),ah,4);ctx.fill();
+    if(!aa){
+      const lx=ax+(aLock/100)*aw;
+      ctx.fillStyle=(aLock>=g.lo&&aLock<=g.hi)?'#3cc850':'#ff6060';
+      ctx.beginPath();ctx.roundRect(lx-4,ay-2,8,ah+4,4);ctx.fill();
+    }else{
+      const ix=ax+(aVal/100)*aw;
+      ctx.fillStyle=mb?'#3cdc60':'#fff';
+      ctx.beginPath();ctx.roundRect(ix-4,ay-2,8,ah+4,4);ctx.fill();
+    }
+    ctx.fillStyle=aa?'rgba(255,255,255,0.9)':'rgba(255,255,255,0.35)';
+    ctx.font=(aa?'bold ':'')+'11px sans-serif';ctx.textAlign='left';
+    ctx.fillText(aa?'← AIM (1st click) →':'← AIM locked ✓',ax,ay-5);
+    if(mb&&aa){ctx.fillStyle='#3cdc60';ctx.font='bold 11px sans-serif';ctx.textAlign='right';ctx.fillText('🟢 MONEY BALL',ax+aw,ay-5)}
+  }
+  // Ball
+  if(gPhase==='flight'){
+    const t=bp,e=t<0.5?2*t*t:-1+(4-2*t)*t;
+    const cx=bx+(btx-bx)*e,cy=by+(bty-by)*e-115*Math.sin(Math.PI*t);
+    ctx.beginPath();ctx.arc(cx,cy,12,0,Math.PI*2);
+    ctx.fillStyle=sMoney?'#2ab84a':'#e85d2a';ctx.fill();
+    ctx.strokeStyle=sMoney?'#0f6e2a':'#3a1a08';ctx.lineWidth=1.5;ctx.stroke();
+  }
+  // Feedback
+  if(fbA>0){
+    const p=POS[Math.min(gPosNum,4)];
+    ctx.globalAlpha=Math.min(fbA,1);ctx.font='bold 24px sans-serif';ctx.textAlign='center';
+    ctx.fillStyle=!sMade?'#ff6060':sMoney?'#3cdc60':'#f0c040';
+    ctx.fillText(fbMsg,p.x,p.y-30-(1.6-fbA)*18);ctx.globalAlpha=1;
+  }
+}
+
+function onGC(){
+  if(!gameRunning||gPhase==='flight')return;
+  if(gPhase==='aim'){
+    aLock=aVal;gPhase='power';pVal=0;pDir=1;
+    document.getElementById('pw').style.display='block';
+    document.getElementById('gm').textContent='CLICK to lock POWER ↕';
+    return;
+  }
+  if(gPhase==='power'){
+    sMoney=isMB();const p=POS[gPosNum],g=gz();
+    bx=p.x;by=p.y;bp=0;
+    const ag=aLock>=g.lo&&aLock<=g.hi,dg=pVal>=g.lo&&pVal<=g.hi;
+    const ac=aLock>=25&&aLock<=75,dc=pVal>=25&&pVal<=75;
+    sMade=(ag&&dg)||((ac&&dc)&&Math.random()<0.55)||((ag||ac)&&(dg||dc)&&Math.random()<0.3);
+    btx=BX+((aLock-50)/50)*130+(sMade?0:(Math.random()-.5)*16);
+    bty=BY+(sMade?0:((pVal-50)/50)*38);
+    gPhase='flight';
+    document.getElementById('gm').textContent='';
+    document.getElementById('pw').style.display='none';
+  }
+}
+
+function chkAdv(){
+  if(shotsPos>=3){
+    shotsPos=0;gPosNum++;
+    if(gPosNum>=POS.length){endGame();return}
+    document.getElementById('gm').textContent=`📍 Position ${gPosNum+1}: ${POS[gPosNum].label}`;
+    setTimeout(()=>{if(gameRunning&&gPhase==='aim')document.getElementById('gm').textContent='CLICK to lock AIM ↔'},1600);
+  }
+}
+
+function updG(){
+  document.getElementById('g-score').textContent=gScore;
+  document.getElementById('g-makes').textContent=gMakes;
+  document.getElementById('g-shot').textContent=Math.min(gShotNum+1,15);
+  document.getElementById('g-pos').textContent=Math.min(gPosNum+1,5);
+}
+
+function endGame(){
+  gameRunning=false;gPhase='idle';if(animId)cancelAnimationFrame(animId);
+  render();
+  const ctx=document.getElementById('gc').getContext('2d');
+  ctx.fillStyle='rgba(10,22,40,0.9)';ctx.beginPath();ctx.roundRect(80,135,440,210,12);ctx.fill();
+  ctx.strokeStyle='#f0c040';ctx.lineWidth=2;ctx.beginPath();ctx.roundRect(80,135,440,210,12);ctx.stroke();
+  ctx.fillStyle='#f0c040';ctx.font='bold 34px Georgia,serif';ctx.textAlign='center';ctx.fillText('CONTEST OVER!',300,188);
+  ctx.fillStyle='#fff';ctx.font='bold 20px Georgia,serif';
+  ctx.fillText(`Final Score: ${gScore} pts (${gMakes}/15 made)`,300,228);
+  const grade=gScore>=52?'🔥 Elite Shooter!':gScore>=36?'⭐ Solid Range':gScore>=24?'📈 Keep Practicing':'💪 Keep Going!';
+  ctx.fillStyle='#8a96a8';ctx.font='15px sans-serif';
+  ctx.fillText(`${Math.round((gMakes/15)*100)}% accuracy — ${grade}`,300,264);
+  ctx.fillStyle='#3cdc60';ctx.font='13px sans-serif';
+  ctx.fillText('Max: 60 pts (15 makes + 5 money ball bonuses)',300,292);
+  const btn=document.getElementById('gbtn');btn.textContent='Play Again';btn.style.display='inline-block';
+  document.getElementById('gm').textContent='';
+}
+
+/* ══ INIT ════════════════════════════════════════════════════ */
+buildScores('all');
+buildEnt('all');
+</script>
+</body>
+</html>

@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3-Point Contest – Sports Hub</title>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0a1628;
+      --navy-mid: #122040;
+      --navy-light: #1a3060;
+      --gold: #f0c040;
+      --white: #ffffff;
+      --gray: #8a96a8;
+      --light-border: rgba(255,255,255,0.1);
+      --card-bg: rgba(255,255,255,0.04);
+      --font-display: 'Barlow Condensed', sans-serif;
+      --font-body: 'Barlow', sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--font-body);
+      background: var(--navy);
+      color: var(--white);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* NAV */
+    nav {
+      background: var(--navy-mid);
+      border-bottom: 2px solid var(--gold);
+      padding: 0 2rem;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .brand {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: var(--white);
+      text-decoration: none;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+    .brand span { color: var(--gold); }
+    .back-link {
+      font-family: var(--font-display);
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--gold);
+      text-decoration: none;
+    }
+    .back-link:hover { text-decoration: underline; }
+
+    /* MAIN */
+    main {
+      flex: 1;
+      padding: 2rem;
+      max-width: 760px;
+      margin: 0 auto;
+      width: 100%;
+    }
+    h1 {
+      font-family: var(--font-display);
+      font-size: 2.2rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: var(--white);
+      margin-bottom: 0.5rem;
+      border-bottom: 2px solid var(--gold);
+      padding-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .instructions {
+      color: var(--gray);
+      font-size: 0.9rem;
+      margin: 1rem 0 1.5rem;
+      line-height: 1.6;
+    }
+    .instructions span { color: var(--gold); font-weight: 600; }
+    .instructions .green { color: #3cdc60; font-weight: 600; }
+
+    /* STATS ROW */
+    .stats-row {
+      display: flex;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .stat-box {
+      background: var(--card-bg);
+      border: 1px solid var(--light-border);
+      border-radius: 10px;
+      padding: 0.9rem 1.4rem;
+      text-align: center;
+      min-width: 90px;
+    }
+    .stat-val {
+      font-family: var(--font-display);
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: var(--gold);
+      line-height: 1;
+    }
+    .stat-lbl {
+      font-family: var(--font-display);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gray);
+      margin-top: 4px;
+    }
+
+    /* CANVAS */
+    #game-canvas {
+      border: 2px solid var(--light-border);
+      border-radius: 12px;
+      cursor: pointer;
+      display: block;
+      width: 100%;
+      max-width: 600px;
+    }
+
+    /* MSG + BUTTON */
+    #game-msg {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 2px;
+      min-height: 2rem;
+      text-align: center;
+      margin: 0.75rem 0;
+    }
+    .btn-gold {
+      background: var(--gold);
+      color: var(--navy);
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      border: none;
+      padding: 0.75rem 2rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      display: block;
+      margin: 0 auto;
+    }
+    .btn-gold:hover { background: #ffd060; transform: translateY(-2px); }
+
+    footer {
+      text-align: center;
+      padding: 1.2rem;
+      color: var(--gray);
+      font-size: 0.8rem;
+      border-top: 1px solid var(--light-border);
+    }
+    footer a { color: var(--gold); text-decoration: none; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="brand" href="index.html">⚡ Sports<span>Hub</span></a>
+  <a class="back-link" href="scratch.html">← Back to Scratch Page</a>
+</nav>
+
+<main>
+  <h1>🏀 3-Point Contest</h1>
+  <p class="instructions">
+    <span>1st click</span> locks <strong>aim</strong> (left ↔ right) &nbsp;·&nbsp;
+    <span>2nd click</span> locks <strong>distance</strong> (short ↕ long).<br>
+    The <span class="green">green zone shrinks</span> the farther you shoot from the basket.
+    Every <span class="green">3rd shot is a 🟢 Money Ball</span> — worth <strong>+4 pts</strong> instead of +3!
+    Space bar also works. 3 shots × 5 positions = 15 shots total.
+  </p>
+
+  <div class="stats-row">
+    <div class="stat-box"><div class="stat-val" id="g-score">0</div><div class="stat-lbl">Points</div></div>
+    <div class="stat-box"><div class="stat-val" id="g-makes">0</div><div class="stat-lbl">Makes</div></div>
+    <div class="stat-box"><div class="stat-val" id="g-shot">1</div><div class="stat-lbl">Shot</div></div>
+    <div class="stat-box"><div class="stat-val" id="g-pos">1</div><div class="stat-lbl">Position</div></div>
+  </div>
+
+  <canvas id="game-canvas" width="600" height="460"></canvas>
+  <div id="game-msg"></div>
+  <button id="game-start-btn" class="btn-gold" onclick="startGame()">Start Game</button>
+</main>
+
+<footer>
+  <a href="index.html">Sports Hub</a> &nbsp;·&nbsp; <a href="scratch.html">Scratch Page</a> &nbsp;·&nbsp; &copy; 2025 Jayden Kuehne
+</footer>
+
+<script>
+// ── 3-POINT CONTEST GAME ────────────────────────────────────────
+let gameRunning = false;
+let gScore = 0, gMakes = 0, gShotNum = 0, gPosNum = 0;
+let currentShotsThisPos = 0;
+let gamePhase = 'idle';
+let aimVal = 0, aimDir = 1, aimSpeed = 2.6;
+let aimLocked = false, aimLockedVal = 50;
+let distVal = 0, distDir = 1, distSpeed = 2.2;
+let ballX = 0, ballY = 0, ballTargetX = 0, ballTargetY = 0;
+let ballProgress = 0, shotMade = false, currentMoneyBall = false;
+let feedbackMsg = '', feedbackAlpha = 0;
+let animId = null;
+
+const positions = [
+  { x: 60,  y: 300, label: 'Left Corner' },
+  { x: 150, y: 180, label: 'Left Wing'   },
+  { x: 300, y: 140, label: 'Top of Arc'  },
+  { x: 450, y: 180, label: 'Right Wing'  },
+  { x: 540, y: 300, label: 'Right Corner'}
+];
+const BASKET_X = 300, BASKET_Y = 80;
+const SHOTS_PER_POS = 3;
+const BASE_GREEN_HALF = 12;
+const CLOSE_LO = 25, CLOSE_HI = 75;
+
+function posDistance(pos) { return Math.hypot(pos.x - BASKET_X, pos.y - BASKET_Y); }
+const POS_DIST_MIN = Math.min(...positions.map(posDistance));
+const POS_DIST_MAX = Math.max(...positions.map(posDistance));
+function greenZone() {
+  const pos = positions[gPosNum] || positions[0];
+  const t = (posDistance(pos) - POS_DIST_MIN) / (POS_DIST_MAX - POS_DIST_MIN);
+  const half = BASE_GREEN_HALF - t * 7;
+  return { lo: 50 - half, hi: 50 + half };
+}
+function isMoneyBall() { return (gShotNum % 3) === 2; }
+
+// Init
+const canvas = document.getElementById('game-canvas');
+canvas.addEventListener('click', handleClick);
+window.addEventListener('keydown', e => { if (e.code === 'Space' && gameRunning) { e.preventDefault(); handleClick(); }});
+drawCourt();
+
+function drawCourt() {
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = '#0d1e3a'; ctx.fillRect(0, 0, 600, 460);
+  ctx.fillStyle = '#c8852a'; ctx.fillRect(30, 60, 540, 320);
+  ctx.strokeStyle = 'rgba(255,255,255,0.5)'; ctx.lineWidth = 2;
+  ctx.strokeRect(30, 60, 540, 320);
+  ctx.strokeStyle = 'rgba(255,255,255,0.4)'; ctx.lineWidth = 1.5;
+  ctx.strokeRect(225, 60, 150, 140);
+  ctx.beginPath(); ctx.arc(BASKET_X, 60, 220, 0, Math.PI, false);
+  ctx.strokeStyle = 'rgba(255,255,255,0.5)'; ctx.lineWidth = 2; ctx.stroke();
+  ctx.beginPath(); ctx.arc(BASKET_X, 200, 60, 0, Math.PI * 2);
+  ctx.strokeStyle = 'rgba(255,255,255,0.3)'; ctx.lineWidth = 1; ctx.stroke();
+  ctx.fillStyle = '#ff6600'; ctx.beginPath(); ctx.arc(BASKET_X, BASKET_Y, 14, 0, Math.PI * 2); ctx.fill();
+  ctx.strokeStyle = '#ff4400'; ctx.lineWidth = 3; ctx.stroke();
+  ctx.fillStyle = '#ffffff'; ctx.fillRect(BASKET_X - 30, BASKET_Y - 20, 60, 6);
+}
+
+function startGame() {
+  gScore = 0; gMakes = 0; gShotNum = 0; gPosNum = 0; currentShotsThisPos = 0;
+  aimVal = 0; aimDir = 1; aimLocked = false; aimLockedVal = 50;
+  distVal = 0; distDir = 1; feedbackMsg = ''; feedbackAlpha = 0;
+  currentMoneyBall = false; shotMade = false;
+  gameRunning = true; gamePhase = 'aim';
+  document.getElementById('game-start-btn').style.display = 'none';
+  document.getElementById('game-msg').textContent = 'CLICK to lock AIM ↔';
+  updateStats();
+  if (animId) cancelAnimationFrame(animId);
+  gameLoop();
+}
+
+function gameLoop() {
+  if (!gameRunning) return;
+  const ctx = canvas.getContext('2d');
+  if (gamePhase === 'aim') { aimVal += aimDir * aimSpeed; if (aimVal >= 100 || aimVal <= 0) aimDir *= -1; }
+  if (gamePhase === 'dist') { distVal += distDir * distSpeed; if (distVal >= 100 || distVal <= 0) distDir *= -1; }
+  if (gamePhase === 'flight') {
+    ballProgress += 0.038;
+    if (ballProgress >= 1) {
+      ballProgress = 1; gamePhase = 'aim';
+      aimVal = 0; aimDir = 1; aimLocked = false; distVal = 0; distDir = 1;
+      if (shotMade) {
+        const pts = currentMoneyBall ? 4 : 3;
+        gScore += pts; gMakes++;
+        feedbackMsg = currentMoneyBall ? '🟢 MONEY! +4' : 'SWISH! +3';
+      } else { feedbackMsg = 'MISS!'; }
+      feedbackAlpha = 1.6; gShotNum++; currentShotsThisPos++;
+      updateStats(); checkAdvance();
+      if (gameRunning) document.getElementById('game-msg').textContent = 'CLICK to lock AIM ↔';
+    }
+  }
+  if (feedbackAlpha > 0) feedbackAlpha -= 0.022;
+  drawCourt();
+  drawPositionMarkers(ctx);
+  drawAimLine(ctx);
+  drawBars(ctx);
+  if (gamePhase === 'flight') drawBall(ctx);
+  if (feedbackAlpha > 0) drawFeedback(ctx);
+  animId = requestAnimationFrame(gameLoop);
+}
+
+function drawPositionMarkers(ctx) {
+  positions.forEach((pos, i) => {
+    const isActive = i === gPosNum && gameRunning;
+    ctx.beginPath(); ctx.arc(pos.x, pos.y, isActive ? 16 : 10, 0, Math.PI * 2);
+    ctx.fillStyle = isActive ? 'rgba(240,192,64,0.9)' : 'rgba(240,192,64,0.3)'; ctx.fill();
+    ctx.strokeStyle = '#f0c040'; ctx.lineWidth = 2; ctx.stroke();
+    if (isActive) {
+      ctx.fillStyle = '#0a1628'; ctx.font = 'bold 12px Barlow Condensed, sans-serif';
+      ctx.textAlign = 'center'; ctx.fillText(i + 1, pos.x, pos.y + 4);
+    }
+  });
+}
+
+function drawAimLine(ctx) {
+  if (gamePhase !== 'dist' && gamePhase !== 'flight') return;
+  const pos = positions[gPosNum];
+  const tx = BASKET_X + ((aimLockedVal - 50) / 50) * 130;
+  const gz = greenZone();
+  ctx.save(); ctx.setLineDash([6, 5]);
+  ctx.strokeStyle = (aimLockedVal >= gz.lo && aimLockedVal <= gz.hi) ? 'rgba(60,200,80,0.65)' : 'rgba(240,192,64,0.5)';
+  ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(pos.x, pos.y); ctx.lineTo(tx, BASKET_Y); ctx.stroke();
+  ctx.setLineDash([]); ctx.restore();
+}
+
+function drawBars(ctx) {
+  if (!gameRunning || gamePhase === 'flight') return;
+  const gz = greenZone();
+  const money = isMoneyBall();
+  const barCol = money ? 'rgba(40,180,80,0.85)' : 'rgba(60,200,80,0.8)';
+  const barColDim = money ? 'rgba(40,180,80,0.35)' : 'rgba(60,200,80,0.3)';
+
+  const ax = 30, ay = 408, aw = 530, ah = 18;
+  const aimActive = gamePhase === 'aim';
+  ctx.fillStyle = aimActive ? 'rgba(0,0,0,0.6)' : 'rgba(0,0,0,0.25)';
+  ctx.beginPath(); ctx.roundRect(ax, ay, aw, ah, 8); ctx.fill();
+  ctx.fillStyle = aimActive ? barCol : barColDim;
+  ctx.beginPath(); ctx.roundRect(ax + aw * (gz.lo / 100), ay, aw * ((gz.hi - gz.lo) / 100), ah, 4); ctx.fill();
+  if (!aimActive) {
+    const lx = ax + (aimLockedVal / 100) * aw;
+    ctx.fillStyle = (aimLockedVal >= gz.lo && aimLockedVal <= gz.hi) ? '#3cc850' : '#ff6060';
+    ctx.beginPath(); ctx.roundRect(lx - 4, ay - 2, 8, ah + 4, 4); ctx.fill();
+  } else {
+    const ix = ax + (aimVal / 100) * aw;
+    ctx.fillStyle = money ? '#3cdc60' : '#ffffff';
+    ctx.beginPath(); ctx.roundRect(ix - 4, ay - 2, 8, ah + 4, 4); ctx.fill();
+  }
+  ctx.fillStyle = aimActive ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.35)';
+  ctx.font = (aimActive ? 'bold ' : '') + '11px Barlow, sans-serif'; ctx.textAlign = 'left';
+  ctx.fillText(aimActive ? '← AIM (1st click) →' : '← AIM locked ✓', ax, ay - 5);
+  if (money && aimActive) {
+    ctx.fillStyle = '#3cdc60'; ctx.font = 'bold 11px Barlow, sans-serif'; ctx.textAlign = 'right';
+    ctx.fillText('🟢 MONEY BALL +1', ax + aw, ay - 5);
+  }
+
+  const vx = 572, vy = 70, vw = 18, vh = 320;
+  const distActive = gamePhase === 'dist';
+  ctx.fillStyle = distActive ? 'rgba(0,0,0,0.6)' : 'rgba(0,0,0,0.12)';
+  ctx.beginPath(); ctx.roundRect(vx, vy, vw, vh, 8); ctx.fill();
+  if (distActive) {
+    const gTop = vy + vh * (gz.lo / 100), gH = vh * ((gz.hi - gz.lo) / 100);
+    ctx.fillStyle = barCol; ctx.beginPath(); ctx.roundRect(vx, gTop, vw, gH, 4); ctx.fill();
+    const iy = vy + (distVal / 100) * vh;
+    ctx.fillStyle = money ? '#3cdc60' : '#ffffff';
+    ctx.beginPath(); ctx.roundRect(vx - 2, iy - 4, vw + 4, 8, 4); ctx.fill();
+    ctx.save(); ctx.translate(vx + vw / 2, vy + vh / 2); ctx.rotate(-Math.PI / 2);
+    ctx.fillStyle = 'rgba(255,255,255,0.9)'; ctx.font = 'bold 11px Barlow, sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText('↑ DISTANCE (2nd click) ↓', 0, -12); ctx.restore();
+  }
+}
+
+function drawBall(ctx) {
+  const t = ballProgress;
+  const eased = t < 0.5 ? 2*t*t : -1+(4-2*t)*t;
+  const cx = ballX + (ballTargetX - ballX) * eased;
+  const cy = ballY + (ballTargetY - ballY) * eased - 115 * Math.sin(Math.PI * t);
+  ctx.beginPath(); ctx.arc(cx, cy, 12, 0, Math.PI * 2);
+  ctx.fillStyle = currentMoneyBall ? '#2ab84a' : '#e85d2a'; ctx.fill();
+  ctx.strokeStyle = currentMoneyBall ? '#0f6e2a' : '#3a1a08'; ctx.lineWidth = 1.5; ctx.stroke();
+  ctx.beginPath(); ctx.arc(cx, cy, 12, -0.5, 0.5);
+  ctx.strokeStyle = currentMoneyBall ? '#1a9a3a' : '#8b3010'; ctx.lineWidth = 1; ctx.stroke();
+}
+
+function drawFeedback(ctx) {
+  const alpha = Math.min(feedbackAlpha, 1);
+  const pos = positions[Math.min(gPosNum, positions.length - 1)];
+  ctx.globalAlpha = alpha; ctx.font = 'bold 24px Barlow Condensed, sans-serif'; ctx.textAlign = 'center';
+  if (!shotMade) ctx.fillStyle = '#ff6060';
+  else if (currentMoneyBall) ctx.fillStyle = '#3cdc60';
+  else ctx.fillStyle = '#f0c040';
+  ctx.fillText(feedbackMsg, pos.x, pos.y - 30 - (1.6 - feedbackAlpha) * 18);
+  ctx.globalAlpha = 1;
+}
+
+function handleClick() {
+  if (!gameRunning || gamePhase === 'flight') return;
+  if (gamePhase === 'aim') {
+    aimLockedVal = aimVal; aimLocked = true; gamePhase = 'dist'; distVal = 0; distDir = 1;
+    document.getElementById('game-msg').textContent = 'CLICK to lock DISTANCE ↕';
+    return;
+  }
+  if (gamePhase === 'dist') {
+    const dLocked = distVal;
+    const gz = greenZone();
+    currentMoneyBall = isMoneyBall();
+    const pos = positions[gPosNum];
+    ballX = pos.x; ballY = pos.y; ballProgress = 0;
+    const aimGreen  = aimLockedVal >= gz.lo && aimLockedVal <= gz.hi;
+    const distGreen = dLocked      >= gz.lo && dLocked      <= gz.hi;
+    const aimClose  = aimLockedVal >= CLOSE_LO && aimLockedVal <= CLOSE_HI;
+    const distClose = dLocked      >= CLOSE_LO && dLocked      <= CLOSE_HI;
+    if (aimGreen && distGreen) shotMade = true;
+    else if (aimClose && distClose) shotMade = Math.random() < 0.55;
+    else if ((aimGreen || aimClose) && (distGreen || distClose)) shotMade = Math.random() < 0.3;
+    else shotMade = false;
+    const aimOffset = ((aimLockedVal - 50) / 50) * 130;
+    const distOffset = ((dLocked - 50) / 50) * 38;
+    ballTargetX = BASKET_X + aimOffset + (shotMade ? 0 : (Math.random() - 0.5) * 16);
+    ballTargetY = BASKET_Y + (shotMade ? 0 : distOffset);
+    gamePhase = 'flight';
+    document.getElementById('game-msg').textContent = '';
+  }
+}
+
+function checkAdvance() {
+  if (currentShotsThisPos >= SHOTS_PER_POS) {
+    currentShotsThisPos = 0; gPosNum++;
+    if (gPosNum >= positions.length) { endGame(); return; }
+    document.getElementById('game-msg').textContent = `📍 Position ${gPosNum + 1}: ${positions[gPosNum].label}`;
+    setTimeout(() => {
+      if (gameRunning && gamePhase === 'aim')
+        document.getElementById('game-msg').textContent = 'CLICK to lock AIM ↔';
+    }, 1600);
+  }
+}
+
+function updateStats() {
+  document.getElementById('g-score').textContent = gScore;
+  document.getElementById('g-makes').textContent = gMakes;
+  document.getElementById('g-shot').textContent = Math.min(gShotNum + 1, 15);
+  document.getElementById('g-pos').textContent = Math.min(gPosNum + 1, 5);
+}
+
+function endGame() {
+  gameRunning = false; gamePhase = 'idle';
+  if (animId) cancelAnimationFrame(animId);
+  drawCourt();
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = 'rgba(10,22,40,0.88)';
+  ctx.beginPath(); ctx.roundRect(80, 135, 440, 210, 12); ctx.fill();
+  ctx.strokeStyle = '#f0c040'; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.roundRect(80, 135, 440, 210, 12); ctx.stroke();
+  ctx.fillStyle = '#f0c040'; ctx.font = 'bold 36px Barlow Condensed, sans-serif';
+  ctx.textAlign = 'center'; ctx.fillText('CONTEST OVER!', 300, 192);
+  ctx.fillStyle = '#ffffff'; ctx.font = 'bold 22px Barlow Condensed, sans-serif';
+  ctx.fillText(`Final Score: ${gScore} pts (${gMakes}/15 made)`, 300, 232);
+  const pct = Math.round((gMakes / 15) * 100);
+  const grade = gScore >= 52 ? '🔥 Elite Shooter!' : gScore >= 36 ? '⭐ Solid Range' : gScore >= 24 ? '📈 Keep Practicing' : '💪 Keep Going!';
+  ctx.fillStyle = '#8a96a8'; ctx.font = '16px Barlow, sans-serif';
+  ctx.fillText(`${pct}% accuracy — ${grade}`, 300, 268);
+  ctx.fillStyle = '#3cdc60'; ctx.font = '13px Barlow, sans-serif';
+  ctx.fillText('Max possible: 60 pts (15 makes + 5 money ball bonuses)', 300, 296);
+  const btn = document.getElementById('game-start-btn');
+  btn.textContent = 'Play Again'; btn.style.display = 'block';
+  document.getElementById('game-msg').textContent = '';
+}
+</script>
+</body>
+</html>
